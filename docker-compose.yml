@@ -1,0 +1,14 @@
+services:
+  listingwatcher:
+    build: .
+    image: listingwatcher:latest
+    container_name: listingwatcher
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8004:8080"      # review web UI
+    environment:
+      TZ: ${TZ:-Europe/Paris}
+    volumes:
+      - ./data:/data     # database + editable config.yaml (Settings tab), created from the image's copy on first start
+    command: ["run"]

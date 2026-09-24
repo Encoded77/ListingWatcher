@@ -1,0 +1,101 @@
+{
+  "href": "https://api.ebay.com/buy/browse/v1/item_summary/search?q=8TB%20NAS&limit=200&offset=0",
+  "total": 3,
+  "limit": 200,
+  "offset": 0,
+  "itemSummaries": [
+    {
+      "itemId": "v1|123456789012|0",
+      "title": "Seagate IronWolf 8TB ST8000VN004 3.5\" SATA NAS HDD Festplatte",
+      "price": {
+        "value": "189.90",
+        "currency": "EUR"
+      },
+      "condition": "Gebraucht",
+      "conditionId": "3000",
+      "itemWebUrl": "https://www.ebay.de/itm/123456789012",
+      "itemLocation": {
+        "city": "City1",
+        "country": "DE"
+      },
+      "seller": {
+        "username": "seller1",
+        "feedbackPercentage": "99.6",
+        "feedbackScore": 4821
+      },
+      "shippingOptions": [
+        {
+          "shippingCostType": "FIXED",
+          "shippingCost": {
+            "value": "12.99",
+            "currency": "EUR"
+          }
+        }
+      ],
+      "buyingOptions": [
+        "FIXED_PRICE"
+      ],
+      "legacyItemId": "123456789012",
+      "itemCreationDate": "2026-09-08T10:00:00.000Z"
+    },
+    {
+      "itemId": "v1|223456789012|0",
+      "title": "WD Red Plus 8TB WD80EFZZ NAS Hard Drive - Calculated shipping",
+      "price": {
+        "value": "219.00",
+        "currency": "EUR"
+      },
+      "condition": "Neu",
+      "conditionId": "1000",
+      "itemWebUrl": "https://www.ebay.fr/itm/223456789012",
+      "itemLocation": {
+        "country": "FR"
+      },
+      "seller": {
+        "username": "seller2",
+        "feedbackPercentage": "0.0",
+        "feedbackScore": 0
+      },
+      "shippingOptions": [
+        {
+          "shippingCostType": "CALCULATED"
+        }
+      ],
+      "buyingOptions": [
+        "FIXED_PRICE"
+      ]
+    },
+    {
+      "itemId": "v1|323456789012|0",
+      "title": "Seagate Exos 8TB ST8000NM0055 for parts / defekt",
+      "price": {
+        "value": "49.00",
+        "currency": "EUR"
+      },
+      "condition": "Für Ersatzteile",
+      "conditionId": "7000",
+      "itemWebUrl": "https://www.ebay.de/itm/323456789012",
+      "itemLocation": {
+        "city": "City3",
+        "country": "DE"
+      },
+      "seller": {
+        "username": "seller3",
+        "feedbackPercentage": "98.0",
+        "feedbackScore": 120
+      },
+      "shippingOptions": [
+        {
+          "shippingCostType": "FIXED",
+          "shippingCost": {
+            "value": "0.00",
+            "currency": "EUR"
+          }
+        }
+      ],
+      "buyingOptions": [
+        "FIXED_PRICE"
+      ]
+    }
+  ]
+}

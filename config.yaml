@@ -1,0 +1,261 @@
+# ListingWatcher — veille d'annonces (leboncoin, eBay) → ntfy. Le cœur est générique ; ce qui est
+# spécifique à l'objet surveillé vit dans une **veille** (section `watches`). Chaque veille a son
+# profil, ses paliers de prix, ses recherches et son toggle de notification ; les flux ne se
+# mélangent pas (base, interface, digest). Le transport (délais, robots, marketplaces) est commun.
+# Les secrets (ntfy, eBay) viennent des variables d'environnement, jamais d'ici.
+
+timezone: Europe/Paris
+
+schedule:
+  run_on_start: true            # un scan immédiat au démarrage du conteneur
+  scan_times: ["07:20", "12:30", "18:10", "22:30"]   # heure locale, toutes les veilles à la suite
+  jitter_minutes: 12            # ± aléa autour de chaque créneau
+  digest_time: "08:00"
+  digest_send_if_empty: false
+
+web:                            # interface de revue des annonces (LAN, sans authentification)
+  enabled: true
+  host: 0.0.0.0
+  port: 8080                    # surchargeable par LISTINGWATCHER_HTTP_PORT
+  title: Annonces               # titre de l'application ; un onglet par veille
+
+# ---------------------------------------------------------------- valeurs par défaut des veilles
+# Chaque veille peut surcharger n'importe quelle clé de `notify`, `market`, `scam` et `thresholds`.
+notify:
+  enabled: true                 # false = veille silencieuse : stockée, visible dans l'interface, jamais notifiée
+  price_drop_pct: 5             # re-notifier une annonce connue seulement si baisse ≥ 5 %
+  suspicious: separate          # separate = notification à part en priorité basse ; never = jamais
+  require_delivery: false       # true = ignorer les annonces sans livraison
+  max_age_days: 120             # annonces publiées il y a plus longtemps : ignorées (0 = pas de limite)
+  # topic: annonces-hdd         # topic ntfy propre à la veille (défaut : NTFY_TOPIC) ; label: préfixe des titres
+  source_labels:
+    lbc: LBC
+    ebay: eBay
+market:
+  history_days: 30
+  min_samples: 4
+  # reference_unit_price : par veille (valeur de repli de l'anti-arnaque tant qu'il n'y a pas d'historique)
+
+scam:
+  below_median_ratio: 0.55      # prix < 55 % de la médiane glissante → suspect
+  zero_feedback_below_market: true
+  max_shipping_eur: 40          # port au-delà → aberrant
+  max_shipping_ratio: 0.5       # port > 50 % du prix article → aberrant
+
+# ---------------------------------------------------------------- transport des sources (commun)
+# Les recherches (searches, queries, category_ids, condition_ids, price_min/max) se déclarent par veille.
+sources:
+  leboncoin:
+    enabled: true
+    max_pages: 3
+    min_delay_s: 6              # politesse : une requête toutes les 6-11 s, jamais en parallèle, toutes veilles confondues
+    max_delay_s: 11
+    respect_robots: true
+    cooldown_hours_when_blocked: 12
+    detail_pages: true          # lire la fiche /ad/ (description) — seulement pour les annonces retenues
+    detail_max_per_scan: 12     # par veille et par scan
+    # Estimation du port Mondial Relay selon le poids déclaré (g) ; leboncoin n'expose pas le "dès X €" dans les données.
+    shipping_estimate:
+      default_eur: 6.9
+      by_weight_g: [[1000, 5.5], [2000, 6.9], [5000, 9.9], [10000, 13.9]]
+
+  ebay:
+    enabled: true
+    marketplaces: [EBAY_FR, EBAY_DE]
+    condition_ids: [1000, 1500, 2000, 2010, 2020, 2030, 2500, 3000]   # pas de 7000 (for parts) ; surchargeable par veille
+    delivery_zip: "75001"       # pour le calcul du port vers la France
+    limit: 200
+    max_pages: 2
+    detail_for_kept: true       # getItem pour quantité, retours, description (annonces retenues seulement)
+    detail_max_per_scan: 20
+
+# ---------------------------------------------------------------- veilles
+watches:
+
+  # ---------------------------------------------------------------- disques durs 8 To (veille historique)
+  hdd:
+    title: Disques durs 8 To
+    notify:
+      enabled: true
+    # Seuils sur le PRIX RENDU par disque (article + port vers la France + frais acheteur).
+    # Repères marché septembre 2026. Au-delà du dernier palier : stocké mais ignoré.
+    thresholds:
+      - {max_delivered: 200, priority: urgent, tags: [fire]}
+      - {max_delivered: 260, priority: default, tags: []}
+      - {max_delivered: 300, priority: low, tags: []}
+    market:
+      reference_unit_price: 240
+    sources:
+      leboncoin:
+        searches:
+          - {category: accessoires_informatique, slug: disque-dur-8to}
+          - {category: accessoires_informatique, slug: disque-dur-8-to}
+          - {category: accessoires_informatique, slug: disque-dur-8tb}
+          - {category: accessoires_informatique, slug: disque-dur-ironwolf}
+          - {category: accessoires_informatique, slug: disque-dur-nas}
+          - {category: accessoires_informatique, slug: disque-dur-interne-nas}
+          - {category: accessoires_informatique, slug: exos}
+          - {category: accessoires_informatique, slug: disque-dur-toshiba}
+          - {category: accessoires_informatique, slug: disque-dur-serveur}
+          - {category: ordinateurs, slug: disque-dur-8to}
+          - {category: ordinateurs, slug: disque-dur-nas}
+      ebay:
+        category_ids: "56083"       # Internal Hard Disk Drives
+        queries:
+          - "8TB 3.5 SATA"
+          - "8TB NAS"
+          - "8TB Enterprise SATA"
+          - "IronWolf 8TB"
+          - "Exos 8TB"
+          - "WD Red 8TB"
+          - "Ultrastar 8TB"
+          - "Toshiba 8TB"
+        price_min: 60
+        price_max: 400
+    profile:
+      type: hdd
+      hdd:
+        target_capacity_tb: 8
+        # Catalogue de modèles. La normalisation applique aussi des règles structurelles
+        # (suffixes HGST, lettres Seagate/WD/Toshiba) pour les références absentes d'ici.
+        models:
+          accept:
+            - {family: IronWolf, brand: Seagate, refs: [ST8000VN0022, ST8000VN004, ST8000VN002]}
+            - {family: IronWolf Pro, brand: Seagate, refs: [ST8000NE0021, ST8000NE001, ST8000NT001]}
+            - {family: Exos, brand: Seagate, refs: [ST8000NM0055, ST8000NM000A, ST8000NM017B]}
+            - {family: WD Red Plus, brand: WD, refs: [WD80EFZZ, WD80EFPX, WD80EFAX, WD80EFBX]}
+            - {family: WD Red Pro, brand: WD, refs: [WD8003FFBX, WD8005FFBX]}
+            - {family: WD Gold, brand: WD, refs: [WD8004FRYZ, WD8002FRYZ]}
+            - {family: Ultrastar, brand: WD/HGST, refs: [HUH728080ALE600, HUH728080ALE601, HUS728T8TALE6L4]}
+            - {family: Toshiba MG, brand: Toshiba, refs: [MG05ACA800E, MG06ACA800E, MG08ADA800E]}
+            - {family: Toshiba N300, brand: Toshiba, refs: [HDWG480, MN08ADA800E, MN10ADA800S]}
+          low_tier:                     # CMR mais spec surveillance : accepté en priorité basse
+            - {family: SkyHawk, brand: Seagate, refs: [ST8000VX0022, ST8000VX004, ST8000VX010]}
+            - {family: WD Purple, brand: WD, refs: [WD82PURZ, WD84PURZ, WD80PURZ, WD80PUZX]}
+          reject:
+            smr: [ST8000DM004, ST8000DM005, ST8000AS0002, WD80EDAZ, WD80EAZZ]
+            sas: [ST8000NM0075, ST8000NM0065]
+            4kn: [ST8000NM0045]
+
+        keywords:
+          dead: ["pour pieces", "pour piece", "piece detachee", "pieces detachees", "hs", "h.s", "ne fonctionne pas", "ne fonctionne plus",
+                 "defectueux", "defectueuse", "en panne", "for parts", "defekt", "not working", "ne demarre pas", "ne demarre plus",
+                 "non fonctionnel", "a reparer", "secteurs defectueux", "secteur defectueux", "bad sectors", "faulty", "kaputt", "clique"]
+          smr: ["barracuda", "archive", "blue", "compute", "smr", "shingled"]
+          sas: ["sas", "scsi", "12gb/s", "12 gb/s", "12gbps"]
+          external: ["externe", "external", "usb", "usb2", "usb3", "usb-c", "usbc", "thunderbolt", "my book", "mybook", "wd book", "book",
+                     "elements", "expansion", "backup plus",
+                     "easystore", "desktop drive", "game drive", "xbox", "playstation", "ps4", "ps5", "portable", "g-raid", "g-tech",
+                     "g-technology", "g-drive", "gdrive", "quattro", "freecom", "fantec", "mercury elite", "lacie", "extern"]
+          bundle: ["serveur nas", "nas synology", "nas qnap", "nas ugreen", "nas asustor", "nas terramaster", "nas buffalo", "nas netgear",
+                   "nas wd", "synology ds", "qnap ts", "rackstation", "diskstation", "terastation", "readynas", "linkstation", "my cloud", "mycloud",
+                   "drobo", "avec disques", "avec disque", "fourni avec", "nas complet", "2 baies", "4 baies", "5 baies", "6 baies", "8 baies",
+                   "nvr", "enregistreur", "dvr", "baie de brassage"]
+          other_device: ["adaptateur", "caddy", "dock", "docking", "hub", "switch", "onduleur", "cable", "carte raid", "carte controleur",
+                         "controleur", "cle usb", "tiroir", "rack seul", "boitier seul", "boitier vide", "nvme", "m.2"]
+
+  # ---------------------------------------------------------------- mini PC 1 litre haut de gamme (veille silencieuse)
+  minipc:
+    title: Mini PC
+    notify:
+      enabled: false            # revue dans l'interface seulement, aucune notification ni digest
+    # Plafond 600 € rendu (article + port + frais) : 10e à 13e gén. Intel, Ryzen PRO 4000/5000, 16-64 Go.
+    thresholds:
+      - {max_delivered: 300, priority: urgent, tags: [fire]}
+      - {max_delivered: 450, priority: default, tags: []}
+      - {max_delivered: 600, priority: low, tags: []}
+    market:
+      reference_unit_price: 350
+    scam:
+      max_shipping_eur: 30
+    sources:
+      leboncoin:
+        searches:
+          - {category: ordinateurs, slug: lenovo-m90q}
+          - {category: ordinateurs, slug: lenovo-m70q}
+          - {category: ordinateurs, slug: lenovo-m80q}
+          - {category: ordinateurs, slug: lenovo-m75q}
+          - {category: ordinateurs, slug: lenovo-tiny}
+          - {category: ordinateurs, slug: optiplex-7080}
+          - {category: ordinateurs, slug: optiplex-7090}
+          - {category: ordinateurs, slug: optiplex-micro}
+          - {category: ordinateurs, slug: elitedesk-800-g6}
+          - {category: ordinateurs, slug: elitedesk-805}
+          - {category: ordinateurs, slug: elite-mini-800}
+          - {category: ordinateurs, slug: prodesk-mini}
+          - {category: ordinateurs, slug: mini-pc-i7}
+      ebay:
+        category_ids: "171957"      # PC Desktops & All-In-Ones
+        queries:
+          - "Lenovo M90q"
+          - "Lenovo M70q"
+          - "Lenovo M75q Gen 2"
+          - "OptiPlex 7080 Micro"
+          - "OptiPlex 7090 Micro"
+          - "OptiPlex 7000 Micro"
+          - "EliteDesk 800 G6 Mini"
+          - "EliteDesk 805 G6 Mini"
+          - "Elite Mini 800 G9"
+          - "Mini PC i7-10700T"
+        price_min: 100
+        price_max: 650
+    profile:
+      type: pc
+      pc:
+        # Plancher de performance, pas un CPU exact : score = génération + gamme (i3 0, i5 +2, i7 +3, i9 +4).
+        # i5-10500T = 12, donc i7-9700T, i5-11500T, Ryzen 5 PRO 4650GE passent ; i7-8700T et i5-9500T (11) non.
+        min_cpu: i5-10500T
+        min_ram_gb: 16              # RAM inconnue → signalée, pas rejetée
+        min_storage_gb: 256
+        require_family: false       # les châssis hors catalogue passent en priorité basse (drapeau family_unknown)
+        # gen : génération Intel du châssis, utilisée quand le titre ne donne que « i5 » (M90q i5 → i5 10e gén.).
+        # Le premier qui correspond gagne : les générations précises avant le nom nu. Pas de gen pour les Ryzen.
+        families:
+          - {name: Lenovo M90q Gen 4, any: [m90q gen 4, m90q gen4], gen: 13}
+          - {name: Lenovo M90q Gen 3, any: [m90q gen 3, m90q gen3], gen: 12}
+          - {name: Lenovo M90q Gen 2, any: [m90q gen 2, m90q gen2], gen: 11}
+          - {name: Lenovo M90q, any: [m90q], gen: 10}
+          - {name: Lenovo M70q Gen 4, any: [m70q gen 4, m70q gen4], gen: 13}
+          - {name: Lenovo M70q Gen 3, any: [m70q gen 3, m70q gen3], gen: 12}
+          - {name: Lenovo M70q Gen 2, any: [m70q gen 2, m70q gen2], gen: 11}
+          - {name: Lenovo M70q, any: [m70q], gen: 10}
+          - {name: Lenovo M80q Gen 3, any: [m80q gen 3, m80q gen3], gen: 12}
+          - {name: Lenovo M80q, any: [m80q], gen: 10}
+          - {name: Lenovo M75q Gen 2, any: [m75q gen 2, m75q gen2, m75q-2]}
+          - {name: Lenovo M920x, any: [m920x], gen: 9}
+          - {name: OptiPlex 7000 Micro, any: [optiplex 7000, "7000 micro"], gen: 12}
+          - {name: OptiPlex 5000 Micro, any: [optiplex 5000, "5000 micro"], gen: 12}
+          - {name: OptiPlex 7090 Micro, any: [optiplex 7090, "7090 micro"], gen: 10}
+          - {name: OptiPlex 7080 Micro, any: [optiplex 7080, "7080 micro"], gen: 10}
+          - {name: OptiPlex 5090 Micro, any: [optiplex 5090, "5090 micro"], gen: 10}
+          - {name: OptiPlex 5080 Micro, any: [optiplex 5080, "5080 micro"], gen: 10}
+          - {name: OptiPlex 3080 Micro, any: [optiplex 3080, "3080 micro"], gen: 10}
+          - {name: OptiPlex 7070 Micro, any: [optiplex 7070, "7070 micro"], gen: 9}
+          - {name: HP Elite Mini 800 G9, any: [elite mini 800 g9, "800 g9", "800g9"], gen: 12}
+          - {name: HP EliteDesk 800 G8 Mini, any: [elitedesk 800 g8, "800 g8", "800g8"], gen: 11}
+          - {name: HP EliteDesk 800 G6 Mini, any: [elitedesk 800 g6, "800 g6", "800g6"], gen: 10}
+          - {name: HP EliteDesk 805 G8 Mini, any: [elitedesk 805 g8, "805 g8", "805g8"]}
+          - {name: HP EliteDesk 805 G6 Mini, any: [elitedesk 805 g6, "805 g6", "805g6"]}
+          - {name: HP ProDesk 600 G6 Mini, any: [prodesk 600 g6, "600 g6", "600g6"], gen: 10}
+          - {name: HP ProDesk 400 G6 Mini, any: [prodesk 400 g6, "400 g6", "400g6"], gen: 10}
+          - {name: HP EliteDesk 800 G5 Mini, any: [elitedesk 800 g5, "800 g5", "800g5"], gen: 9}
+          # 8e gén. : sous le plancher, gardés pour nommer et rejeter proprement ce qui remonte encore
+          - {name: Lenovo M720q, any: [m720q], gen: 8}
+          - {name: Lenovo M920q, any: [m920q], gen: 8}
+          - {name: Lenovo M720 Tiny, any: [m720 tiny, m720tiny], gen: 8}
+          - {name: Lenovo M920 Tiny, any: [m920 tiny, m920tiny], gen: 8}
+          - {name: OptiPlex 3060 Micro, any: [optiplex 3060, "3060 micro", "3060 mff"], gen: 8}
+          - {name: OptiPlex 5060 Micro, any: [optiplex 5060, "5060 micro"], gen: 8}
+          - {name: OptiPlex 7060 Micro, any: [optiplex 7060, "7060 micro", "7060 mff"], gen: 8}
+          - {name: HP EliteDesk 800 G4 Mini, any: [elitedesk 800 g4, "800 g4", "800g4"], gen: 8}
+          - {name: HP ProDesk 400 G4 Mini, any: [prodesk 400 g4, "400 g4", "400g4"], gen: 8}
+          - {name: HP ProDesk 600 G4 Mini, any: [prodesk 600 g4, "600 g4", "600g4"], gen: 8}
+        reject: ["pour pieces", "pour piece", "hs", "h.s", "ne fonctionne pas", "ne fonctionne plus", "defectueux", "en panne",
+                 "for parts", "defekt", "not working", "ne demarre pas", "ne demarre plus", "a reparer", "carte mere seule",
+                 "processeur seul", "cpu seul", "ecran seul"]
+        reject_title: ["portable", "laptop", "notebook", "thinkpad", "probook", "elitebook", "latitude", "boitier vide", "boitier seul",
+                       "carte mere", "chromebook", "tablette", "all in one", "all-in-one", "aio", "chargeur", "alimentation",
+                       "docking", "dockstation", "kit de mise a niveau"]
+        # formats refusés (titre), sauf si un mot de mini_any subsiste une fois ces formats retirés (« micro tour … M720q Tiny » passe)
+        reject_form: ["sff", "tour", "tower", "mini tower", "mini tour", "micro tour", "mini-tour", "micro-tour", "mt", "small form factor", "dt"]
+        mini_any: ["micro", "mini", "tiny", "usff", "1l", "1 l", "mff", "dm"]

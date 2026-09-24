@@ -1,0 +1,3576 @@
+{
+  "total": 94,
+  "max_pages": 3,
+  "ads": [
+    {
+      "list_id": 3264439495,
+      "first_publication_date": "2026-09-06 14:59:56",
+      "index_date": "2026-09-06 14:59:56",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Lot de 3 disques durs 8To sas (Roben)",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3264439495",
+      "price": [
+        200
+      ],
+      "price_cents": 20000,
+      "buyer_fee": {
+        "amount": 1070
+      },
+      "attributes": [
+        {
+          "key": "activity_sector",
+          "value": "3",
+          "value_label": "3"
+        },
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "710",
+          "value_label": "710"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "10000",
+          "value_label": "10000"
+        },
+        {
+          "key": "stock_quantity",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatsatisfaisant",
+          "value_label": "État satisfaisant"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "dell",
+          "value_label": "Dell"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "spare_parts_availability",
+          "value": "non_disponible",
+          "value_label": "Non disponible"
+        }
+      ],
+      "location": {
+        "city": "Ville1",
+        "city_label": "Ville1 62000",
+        "zipcode": "62000",
+        "department_id": "62",
+        "region_name": "Nord-Pas-de-Calais"
+      },
+      "owner": {
+        "name": "boutique1",
+        "type": "pro",
+        "store_id": "100001"
+      }
+    },
+    {
+      "list_id": 3261370150,
+      "first_publication_date": "2026-09-02 09:27:10",
+      "index_date": "2026-09-02 09:27:10",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur 8To",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3261370150",
+      "price": [
+        300
+      ],
+      "price_cents": 30000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "0.96",
+          "value_label": "0.96"
+        },
+        {
+          "key": "rating_count",
+          "value": "10",
+          "value_label": "10"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1097",
+          "value_label": "1097"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville2",
+        "city_label": "Ville2 67000",
+        "zipcode": "67000",
+        "department_id": "67",
+        "region_name": "Alsace"
+      },
+      "owner": {
+        "name": "vendeur2",
+        "type": "private",
+        "store_id": "100002"
+      }
+    },
+    {
+      "list_id": 3262452896,
+      "first_publication_date": "2026-09-04 01:23:08",
+      "index_date": "2026-09-04 01:23:08",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur 8to 3''5 WD Gold WD8004FRYZ SATA III - DataCenter/Serveur/Nas",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3262452896",
+      "price": [
+        325
+      ],
+      "price_cents": 32500,
+      "buyer_fee": {
+        "amount": 1695
+      },
+      "attributes": [
+        {
+          "key": "activity_sector",
+          "value": "3",
+          "value_label": "3"
+        },
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "45",
+          "value_label": "45"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "250",
+          "value_label": "250"
+        },
+        {
+          "key": "stock_quantity",
+          "value": "4",
+          "value_label": "4"
+        },
+        {
+          "key": "had_multiple_in_stock",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "new_item_type",
+          "value": "destockage",
+          "value_label": "Déstockage"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "spare_parts_availability",
+          "value": "non_disponible",
+          "value_label": "Non disponible"
+        }
+      ],
+      "location": {
+        "city": "Ville3",
+        "city_label": "Ville3 75000",
+        "zipcode": "75000",
+        "department_id": "75",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "boutique3",
+        "type": "pro",
+        "store_id": "100003"
+      }
+    },
+    {
+      "list_id": 3261530228,
+      "first_publication_date": "2026-09-02 13:43:50",
+      "index_date": "2026-09-02 13:43:50",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur seagate 8To",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3261530228",
+      "price": [
+        300
+      ],
+      "price_cents": 30000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "0.98",
+          "value_label": "0.98"
+        },
+        {
+          "key": "rating_count",
+          "value": "23",
+          "value_label": "23"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1019",
+          "value_label": "1019"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville4",
+        "city_label": "Ville4 69000",
+        "zipcode": "69000",
+        "department_id": "69",
+        "region_name": "Rhône-Alpes"
+      },
+      "owner": {
+        "name": "vendeur4",
+        "type": "private",
+        "store_id": "100004"
+      }
+    },
+    {
+      "list_id": 3263490710,
+      "first_publication_date": "2026-09-05 13:26:41",
+      "index_date": "2026-09-05 13:26:41",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur interne 8To, Seagate IronWolf",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3263490710",
+      "price": [
+        280
+      ],
+      "price_cents": 28000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "15",
+          "value_label": "15"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "833",
+          "value_label": "833"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville5",
+        "city_label": "Ville5 33000",
+        "zipcode": "33000",
+        "department_id": "33",
+        "region_name": "Aquitaine"
+      },
+      "owner": {
+        "name": "vendeur5",
+        "type": "private",
+        "store_id": "100005"
+      }
+    },
+    {
+      "list_id": 3260778539,
+      "first_publication_date": "2026-09-01 08:38:40",
+      "index_date": "2026-09-01 08:38:40",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur SATA 8to",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3260778539",
+      "price": [
+        250
+      ],
+      "price_cents": 25000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "estimated_parcel_weight",
+          "value": "959",
+          "value_label": "959"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "dell",
+          "value_label": "Dell"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "old_price",
+          "value": "300",
+          "value_label": "300"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville6",
+        "city_label": "Ville6 95000",
+        "zipcode": "95000",
+        "department_id": "95",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "vendeur6",
+        "type": "private",
+        "store_id": "100006"
+      }
+    },
+    {
+      "list_id": 3254708298,
+      "first_publication_date": "2026-08-22 15:41:50",
+      "index_date": "2026-08-22 15:41:50",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur interne Barracuda 8To ST800DMZ04",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3254708298",
+      "price": [
+        250
+      ],
+      "price_cents": 25000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "4",
+          "value_label": "4"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1016",
+          "value_label": "1016"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville7",
+        "city_label": "Ville7 91000",
+        "zipcode": "91000",
+        "department_id": "91",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "vendeur7",
+        "type": "private",
+        "store_id": "100007"
+      }
+    },
+    {
+      "list_id": 3265747496,
+      "first_publication_date": "2026-09-08 13:19:21",
+      "index_date": "2026-09-08 13:19:21",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "8To, Disque Dur Externe",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3265747496",
+      "price": [
+        190
+      ],
+      "price_cents": 19000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "0.96",
+          "value_label": "0.96"
+        },
+        {
+          "key": "rating_count",
+          "value": "4",
+          "value_label": "4"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "834",
+          "value_label": "834"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "old_price",
+          "value": "200",
+          "value_label": "200"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville8",
+        "city_label": "Ville8 49000",
+        "zipcode": "49000",
+        "department_id": "49",
+        "region_name": "Pays de la Loire"
+      },
+      "owner": {
+        "name": "vendeur8",
+        "type": "private",
+        "store_id": "100008"
+      }
+    },
+    {
+      "list_id": 3263486187,
+      "first_publication_date": "2026-09-05 13:21:30",
+      "index_date": "2026-09-05 13:21:30",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur interne 8To - Seagate Exos",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3263486187",
+      "price": [
+        250
+      ],
+      "price_cents": 25000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "15",
+          "value_label": "15"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "926",
+          "value_label": "926"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville9",
+        "city_label": "Ville9 33000",
+        "zipcode": "33000",
+        "department_id": "33",
+        "region_name": "Aquitaine"
+      },
+      "owner": {
+        "name": "vendeur9",
+        "type": "private",
+        "store_id": "100009"
+      }
+    },
+    {
+      "list_id": 3258658361,
+      "first_publication_date": "2026-08-28 23:31:47",
+      "index_date": "2026-08-28 23:31:47",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur Seagate BarraCuda Compute 8TO 3,5\" SATA HDD",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3258658361",
+      "price": [
+        200
+      ],
+      "price_cents": 20000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "6",
+          "value_label": "6"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "983",
+          "value_label": "983"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "bonetat",
+          "value_label": "Bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville10",
+        "city_label": "Ville10 83000",
+        "zipcode": "83000",
+        "department_id": "83",
+        "region_name": "Provence-Alpes-Côte d'Azur"
+      },
+      "owner": {
+        "name": "vendeur10",
+        "type": "private",
+        "store_id": "100010"
+      }
+    },
+    {
+      "list_id": 3264744589,
+      "first_publication_date": "2026-09-06 19:01:35",
+      "index_date": "2026-09-06 19:01:35",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disques dur Seagate 8To x2",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3264744589",
+      "price": [
+        390
+      ],
+      "price_cents": 39000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "8",
+          "value_label": "8"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "2000",
+          "value_label": "2000"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville11",
+        "city_label": "Ville11 69000",
+        "zipcode": "69000",
+        "department_id": "69",
+        "region_name": "Rhône-Alpes"
+      },
+      "owner": {
+        "name": "vendeur11",
+        "type": "private",
+        "store_id": "100011"
+      }
+    },
+    {
+      "list_id": 3241928424,
+      "first_publication_date": "2026-07-30 14:38:54",
+      "index_date": "2026-07-30 14:38:54",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur externe 8to",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3241928424",
+      "price": [
+        150
+      ],
+      "price_cents": 15000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "estimated_parcel_weight",
+          "value": "991",
+          "value_label": "991"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "face_to_face",
+          "value_label": "face_to_face"
+        },
+        {
+          "key": "shippable",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "old_price",
+          "value": "170",
+          "value_label": "170"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville12",
+        "city_label": "Ville12 10000",
+        "zipcode": "10000",
+        "department_id": "10",
+        "region_name": "Champagne-Ardenne"
+      },
+      "owner": {
+        "name": "vendeur12",
+        "type": "private",
+        "store_id": "100012"
+      }
+    },
+    {
+      "list_id": 3260587296,
+      "first_publication_date": "2026-08-31 19:15:19",
+      "index_date": "2026-08-31 19:15:19",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur western digital Purple 8To",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3260587296",
+      "price": [
+        200
+      ],
+      "price_cents": 20000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "0.99",
+          "value_label": "0.99"
+        },
+        {
+          "key": "rating_count",
+          "value": "132",
+          "value_label": "132"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "2000",
+          "value_label": "2000"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "old_price",
+          "value": "300",
+          "value_label": "300"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville13",
+        "city_label": "Ville13 04000",
+        "zipcode": "04000",
+        "department_id": "4",
+        "region_name": "Provence-Alpes-Côte d'Azur"
+      },
+      "owner": {
+        "name": "vendeur13",
+        "type": "private",
+        "store_id": "100013"
+      }
+    },
+    {
+      "list_id": 3241534862,
+      "first_publication_date": "2026-07-29 18:08:10",
+      "index_date": "2026-07-29 18:08:10",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur externe seagate 8to",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3241534862",
+      "price": [
+        175
+      ],
+      "price_cents": 17500,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "0.9",
+          "value_label": "0.9"
+        },
+        {
+          "key": "rating_count",
+          "value": "8",
+          "value_label": "8"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "984",
+          "value_label": "984"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "face_to_face",
+          "value_label": "face_to_face"
+        },
+        {
+          "key": "shippable",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville14",
+        "city_label": "Ville14 46000",
+        "zipcode": "46000",
+        "department_id": "46",
+        "region_name": "Midi-Pyrénées"
+      },
+      "owner": {
+        "name": "vendeur14",
+        "type": "private",
+        "store_id": "100014"
+      }
+    },
+    {
+      "list_id": 3265054664,
+      "first_publication_date": "2026-09-07 10:42:50",
+      "index_date": "2026-09-07 10:42:50",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Lot de disque dur hdd 3.5 2 pieces 8to +5 pices 4to",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3265054664",
+      "price": [
+        300
+      ],
+      "price_cents": 30000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "4",
+          "value_label": "4"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "721",
+          "value_label": "721"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "bonetat",
+          "value_label": "Bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "face_to_face",
+          "value_label": "face_to_face"
+        },
+        {
+          "key": "shippable",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville15",
+        "city_label": "Ville15 94000",
+        "zipcode": "94000",
+        "department_id": "94",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "vendeur15",
+        "type": "private",
+        "store_id": "100015"
+      }
+    },
+    {
+      "list_id": 3239225023,
+      "first_publication_date": "2026-07-25 19:19:48",
+      "index_date": "2026-07-25 19:19:48",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur Xbox Seagate 8to",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3239225023",
+      "price": [
+        230
+      ],
+      "price_cents": 23000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "21",
+          "value_label": "21"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1000",
+          "value_label": "1000"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "microsoft",
+          "value_label": "Microsoft"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville16",
+        "city_label": "Ville16 17000",
+        "zipcode": "17000",
+        "department_id": "17",
+        "region_name": "Poitou-Charentes"
+      },
+      "owner": {
+        "name": "vendeur16",
+        "type": "private",
+        "store_id": "100016"
+      }
+    },
+    {
+      "list_id": 3260948315,
+      "first_publication_date": "2026-09-01 13:46:21",
+      "index_date": "2026-09-01 13:46:21",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur Nas 8To Toshiba",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3260948315",
+      "price": [
+        210
+      ],
+      "price_cents": 21000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "2000",
+          "value_label": "2000"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "bonetat",
+          "value_label": "Bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville17",
+        "city_label": "Ville17 31000",
+        "zipcode": "31000",
+        "department_id": "31",
+        "region_name": "Midi-Pyrénées"
+      },
+      "owner": {
+        "name": "vendeur17",
+        "type": "private",
+        "store_id": "100017"
+      }
+    },
+    {
+      "list_id": 3261939611,
+      "first_publication_date": "2026-09-03 07:51:54",
+      "index_date": "2026-09-03 07:51:54",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur interne SAS 8To HGST 12 Gb/s 7200 RPM",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3261939611",
+      "price": [
+        130
+      ],
+      "price_cents": 13000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "23",
+          "value_label": "23"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1938",
+          "value_label": "1938"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        }
+      ],
+      "location": {
+        "city": "Ville18",
+        "city_label": "Ville18 69000",
+        "zipcode": "69000",
+        "department_id": "69",
+        "region_name": "Rhône-Alpes"
+      },
+      "owner": {
+        "name": "vendeur18",
+        "type": "private",
+        "store_id": "100018"
+      }
+    },
+    {
+      "list_id": 2996560441,
+      "first_publication_date": "2026-08-12 12:02:23",
+      "index_date": "2026-08-12 12:02:23",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Serveur NAS Synology DS124 avec 1x disque dur 8To IRONWOLF",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/2996560441",
+      "price": [
+        565
+      ],
+      "price_cents": 56500,
+      "buyer_fee": {
+        "amount": 2895
+      },
+      "attributes": [
+        {
+          "key": "activity_sector",
+          "value": "3",
+          "value_label": "3"
+        },
+        {
+          "key": "rating_score",
+          "value": "0.99",
+          "value_label": "0.99"
+        },
+        {
+          "key": "rating_count",
+          "value": "122",
+          "value_label": "122"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "2000",
+          "value_label": "2000"
+        },
+        {
+          "key": "stock_quantity",
+          "value": "2",
+          "value_label": "2"
+        },
+        {
+          "key": "had_multiple_in_stock",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "new_item_type",
+          "value": "destockage",
+          "value_label": "Déstockage"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "other",
+          "value_label": "Autre"
+        },
+        {
+          "key": "new_item_price",
+          "value": "59500",
+          "value_label": "59500"
+        },
+        {
+          "key": "shipping_type",
+          "value": "distance",
+          "value_label": "distance"
+        },
+        {
+          "key": "shipping_cost",
+          "value": "0",
+          "value_label": "0"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "spare_parts_availability",
+          "value": "non_disponible",
+          "value_label": "Non disponible"
+        }
+      ],
+      "location": {
+        "city": "Ville19",
+        "city_label": "Ville19 75000",
+        "zipcode": "75000",
+        "department_id": "75",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "boutique19",
+        "type": "pro",
+        "store_id": "100019"
+      }
+    },
+    {
+      "list_id": 3224580209,
+      "first_publication_date": "2026-06-29 07:14:16",
+      "index_date": "2026-06-29 07:14:16",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disques dur vidéosurveillance",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3224580209",
+      "price": [
+        25
+      ],
+      "price_cents": 2500,
+      "buyer_fee": {
+        "amount": 195
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "29",
+          "value_label": "29"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1683",
+          "value_label": "1683"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "old_price",
+          "value": "30",
+          "value_label": "30"
+        }
+      ],
+      "location": {
+        "city": "Ville20",
+        "city_label": "Ville20 06000",
+        "zipcode": "06000",
+        "department_id": "6",
+        "region_name": "Provence-Alpes-Côte d'Azur"
+      },
+      "owner": {
+        "name": "vendeur20",
+        "type": "private",
+        "store_id": "100020"
+      }
+    },
+    {
+      "list_id": 3194117286,
+      "first_publication_date": "2026-05-08 18:36:56",
+      "index_date": "2026-05-08 18:36:56",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dure",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3194117286",
+      "price": [
+        300
+      ],
+      "price_cents": 30000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "estimated_parcel_weight",
+          "value": "805",
+          "value_label": "805"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville21",
+        "city_label": "Ville21 91000",
+        "zipcode": "91000",
+        "department_id": "91",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "vendeur21",
+        "type": "private",
+        "store_id": "100021"
+      }
+    },
+    {
+      "list_id": 2160681526,
+      "first_publication_date": "2022-05-12 10:51:28",
+      "index_date": "2022-05-12 10:51:28",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur 8to 10to 12to 16to neuf et garantie",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/2160681526",
+      "price": [
+        140
+      ],
+      "price_cents": 14000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "0.89",
+          "value_label": "0.89"
+        },
+        {
+          "key": "rating_count",
+          "value": "7",
+          "value_label": "7"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "2000",
+          "value_label": "2000"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        }
+      ],
+      "location": {
+        "city": "Ville22",
+        "city_label": "Ville22 95000",
+        "zipcode": "95000",
+        "department_id": "95",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "vendeur22",
+        "type": "private",
+        "store_id": "100022"
+      }
+    },
+    {
+      "list_id": 3266038572,
+      "first_publication_date": "2026-09-08 20:36:24",
+      "index_date": "2026-09-08 20:36:24",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur externe Seagate 8To",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3266038572",
+      "price": [
+        120
+      ],
+      "price_cents": 12000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "transaction_status",
+          "value": "pending",
+          "value_label": "Achat en cours"
+        },
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "4",
+          "value_label": "4"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1000",
+          "value_label": "1000"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        }
+      ],
+      "location": {
+        "city": "Ville23",
+        "city_label": "Ville23 78000",
+        "zipcode": "78000",
+        "department_id": "78",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "vendeur23",
+        "type": "private",
+        "store_id": "100023"
+      }
+    },
+    {
+      "list_id": 3261865283,
+      "first_publication_date": "2026-09-02 22:03:40",
+      "index_date": "2026-09-02 22:03:40",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur 8To Seagate IronWolf",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3261865283",
+      "price": [
+        280
+      ],
+      "price_cents": 28000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "transaction_status",
+          "value": "pending",
+          "value_label": "Achat en cours"
+        },
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "15",
+          "value_label": "15"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1027",
+          "value_label": "1027"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "old_price",
+          "value": "300",
+          "value_label": "300"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville24",
+        "city_label": "Ville24 33000",
+        "zipcode": "33000",
+        "department_id": "33",
+        "region_name": "Aquitaine"
+      },
+      "owner": {
+        "name": "vendeur24",
+        "type": "private",
+        "store_id": "100024"
+      }
+    },
+    {
+      "list_id": 3255261890,
+      "first_publication_date": "2026-08-23 14:16:50",
+      "index_date": "2026-08-23 14:16:50",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur G-RAID 8To Thunderbolt – Testé – Pro vidéo / Mac",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3255261890",
+      "price": [
+        200
+      ],
+      "price_cents": 20000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "0.9",
+          "value_label": "0.9"
+        },
+        {
+          "key": "rating_count",
+          "value": "146",
+          "value_label": "146"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1414",
+          "value_label": "1414"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville25",
+        "city_label": "Ville25 77000",
+        "zipcode": "77000",
+        "department_id": "77",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "vendeur25",
+        "type": "private",
+        "store_id": "100025"
+      }
+    },
+    {
+      "list_id": 3252331841,
+      "first_publication_date": "2026-08-18 16:45:31",
+      "index_date": "2026-08-18 16:45:31",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur externe neuf 8to",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3252331841",
+      "price": [
+        195
+      ],
+      "price_cents": 19500,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "transaction_status",
+          "value": "sold",
+          "value_label": "Vendu"
+        },
+        {
+          "key": "rating_score",
+          "value": "0.99",
+          "value_label": "0.99"
+        },
+        {
+          "key": "rating_count",
+          "value": "57",
+          "value_label": "57"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "2000",
+          "value_label": "2000"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville26",
+        "city_label": "Ville26 21000",
+        "zipcode": "21000",
+        "department_id": "21",
+        "region_name": "Bourgogne"
+      },
+      "owner": {
+        "name": "vendeur26",
+        "type": "private",
+        "store_id": "100026"
+      }
+    },
+    {
+      "list_id": 3253146301,
+      "first_publication_date": "2026-08-19 22:27:34",
+      "index_date": "2026-08-19 22:27:34",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur Seagate 8TO ironwolf",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3253146301",
+      "price": [
+        295
+      ],
+      "price_cents": 29500,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "transaction_status",
+          "value": "sold",
+          "value_label": "Vendu"
+        },
+        {
+          "key": "rating_score",
+          "value": "0.99",
+          "value_label": "0.99"
+        },
+        {
+          "key": "rating_count",
+          "value": "46",
+          "value_label": "46"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1027",
+          "value_label": "1027"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville27",
+        "city_label": "Ville27 74000",
+        "zipcode": "74000",
+        "department_id": "74",
+        "region_name": "Rhône-Alpes"
+      },
+      "owner": {
+        "name": "vendeur27",
+        "type": "private",
+        "store_id": "100027"
+      }
+    },
+    {
+      "list_id": 2269809239,
+      "first_publication_date": "2022-12-11 22:01:20",
+      "index_date": "2022-12-11 22:01:20",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur pro 8to",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/2269809239",
+      "price": [
+        220
+      ],
+      "price_cents": 22000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "2",
+          "value_label": "2"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1589",
+          "value_label": "1589"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville28",
+        "city_label": "Ville28 93000",
+        "zipcode": "93000",
+        "department_id": "93",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "vendeur28",
+        "type": "private",
+        "store_id": "100028"
+      }
+    },
+    {
+      "list_id": 2012547663,
+      "first_publication_date": "2021-07-13 22:31:22",
+      "index_date": "2021-07-13 22:31:22",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/2012547663",
+      "price": [
+        80
+      ],
+      "price_cents": 8000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "0.6",
+          "value_label": "0.6"
+        },
+        {
+          "key": "rating_count",
+          "value": "4",
+          "value_label": "4"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "500",
+          "value_label": "500"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "etatneuf",
+          "value_label": "État neuf"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        }
+      ],
+      "location": {
+        "city": "Ville29",
+        "city_label": "Ville29 91000",
+        "zipcode": "91000",
+        "department_id": "91",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "vendeur29",
+        "type": "private",
+        "store_id": "100029"
+      }
+    },
+    {
+      "list_id": 3226403989,
+      "first_publication_date": "2026-07-02 16:19:44",
+      "index_date": "2026-07-02 16:19:44",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur externe Seagate Desktop Drive 8 To USB3 3,5 pouces possibilité 4To ou 8To",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3226403989",
+      "price": [
+        160
+      ],
+      "price_cents": 16000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "106",
+          "value_label": "106"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1428",
+          "value_label": "1428"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "is_bundleable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "purchase_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "negotiation_cta_visible",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "face_to_face",
+          "value_label": "face_to_face"
+        },
+        {
+          "key": "shippable",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville30",
+        "city_label": "Ville30 01000",
+        "zipcode": "01000",
+        "department_id": "1",
+        "region_name": "Rhône-Alpes"
+      },
+      "owner": {
+        "name": "vendeur30",
+        "type": "private",
+        "store_id": "100030"
+      }
+    },
+    {
+      "list_id": 2088897242,
+      "first_publication_date": "2021-12-16 21:04:29",
+      "index_date": "2021-12-16 21:04:29",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Seagate disque dur externe 8to - neuf sous blister",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/2088897242",
+      "price": [
+        162
+      ],
+      "price_cents": 16200,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "transaction_status",
+          "value": "sold",
+          "value_label": "Vendu"
+        },
+        {
+          "key": "rating_score",
+          "value": "0.99",
+          "value_label": "0.99"
+        },
+        {
+          "key": "rating_count",
+          "value": "60",
+          "value_label": "60"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "500",
+          "value_label": "500"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "old_price",
+          "value": "164",
+          "value_label": "164"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville31",
+        "city_label": "Ville31 02000",
+        "zipcode": "02000",
+        "department_id": "2",
+        "region_name": "Picardie"
+      },
+      "owner": {
+        "name": "vendeur31",
+        "type": "private",
+        "store_id": "100031"
+      }
+    },
+    {
+      "list_id": 3249690419,
+      "first_publication_date": "2026-08-13 21:35:00",
+      "index_date": "2026-08-13 21:35:00",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur 8To - Seagate Exos 7E8 - SATA Enterprise",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3249690419",
+      "price": [
+        250
+      ],
+      "price_cents": 25000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "transaction_status",
+          "value": "sold",
+          "value_label": "Vendu"
+        },
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "15",
+          "value_label": "15"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1000",
+          "value_label": "1000"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville32",
+        "city_label": "Ville32 33000",
+        "zipcode": "33000",
+        "department_id": "33",
+        "region_name": "Aquitaine"
+      },
+      "owner": {
+        "name": "vendeur32",
+        "type": "private",
+        "store_id": "100032"
+      }
+    },
+    {
+      "list_id": 3261273582,
+      "first_publication_date": "2026-09-01 22:36:59",
+      "index_date": "2026-09-01 22:36:59",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque dur 8To - Seagate Barracuda [HS]",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3261273582",
+      "price": [
+        50
+      ],
+      "price_cents": 5000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "transaction_status",
+          "value": "pending",
+          "value_label": "Achat en cours"
+        },
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "125",
+          "value_label": "125"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "978",
+          "value_label": "978"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "pourpieces",
+          "value_label": "Pour pièces"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        }
+      ],
+      "location": {
+        "city": "Ville33",
+        "city_label": "Ville33 95000",
+        "zipcode": "95000",
+        "department_id": "95",
+        "region_name": "Ile-de-France"
+      },
+      "owner": {
+        "name": "vendeur33",
+        "type": "private",
+        "store_id": "100033"
+      }
+    },
+    {
+      "list_id": 3257317683,
+      "first_publication_date": "2026-08-26 18:07:44",
+      "index_date": "2026-08-26 18:07:44",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Disque Dur Interne 8To Seagate Barracuda",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3257317683",
+      "price": [
+        160
+      ],
+      "price_cents": 16000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "transaction_status",
+          "value": "sold",
+          "value_label": "Vendu"
+        },
+        {
+          "key": "rating_score",
+          "value": "1",
+          "value_label": "1"
+        },
+        {
+          "key": "rating_count",
+          "value": "19",
+          "value_label": "19"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "1045",
+          "value_label": "1045"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville34",
+        "city_label": "Ville34 67000",
+        "zipcode": "67000",
+        "department_id": "67",
+        "region_name": "Alsace"
+      },
+      "owner": {
+        "name": "vendeur34",
+        "type": "private",
+        "store_id": "100034"
+      }
+    },
+    {
+      "list_id": 3265405667,
+      "first_publication_date": "2026-09-07 19:12:57",
+      "index_date": "2026-09-07 19:12:57",
+      "status": "active",
+      "category_id": "83",
+      "category_name": "Accessoires informatique",
+      "subject": "Lot de 2 Disques dur Seagate Exos 7E8 8To",
+      "body": "",
+      "ad_type": "offer",
+      "url": "https://www.leboncoin.fr/ad/accessoires_informatique/3265405667",
+      "price": [
+        400
+      ],
+      "price_cents": 40000,
+      "buyer_fee": {
+        "amount": 199
+      },
+      "attributes": [
+        {
+          "key": "transaction_status",
+          "value": "pending",
+          "value_label": "Achat en cours"
+        },
+        {
+          "key": "rating_score",
+          "value": "0.99",
+          "value_label": "0.99"
+        },
+        {
+          "key": "rating_count",
+          "value": "109",
+          "value_label": "109"
+        },
+        {
+          "key": "estimated_parcel_weight",
+          "value": "2000",
+          "value_label": "2000"
+        },
+        {
+          "key": "estimated_parcel_size",
+          "value": "M",
+          "value_label": "M"
+        },
+        {
+          "key": "country_isocode3166",
+          "value": "FR",
+          "value_label": "FR"
+        },
+        {
+          "key": "condition",
+          "value": "tresbonetat",
+          "value_label": "Très bon état"
+        },
+        {
+          "key": "computer_accessories_product",
+          "value": "harddrive",
+          "value_label": "Disque dur (SSD, HDD) et lecteur"
+        },
+        {
+          "key": "computer_accessories_brand",
+          "value": "westerndigital",
+          "value_label": "Western Digital"
+        },
+        {
+          "key": "shipping_type",
+          "value": "mondial_relay",
+          "value_label": "mondial_relay"
+        },
+        {
+          "key": "shippable",
+          "value": "true",
+          "value_label": "true"
+        },
+        {
+          "key": "is_import",
+          "value": "false",
+          "value_label": "false"
+        },
+        {
+          "key": "payment_methods",
+          "value": "installments3x",
+          "value_label": "installments3x"
+        }
+      ],
+      "location": {
+        "city": "Ville35",
+        "city_label": "Ville35 62000",
+        "zipcode": "62000",
+        "department_id": "62",
+        "region_name": "Nord-Pas-de-Calais"
+      },
+      "owner": {
+        "name": "vendeur35",
+        "type": "private",
+        "store_id": "100035"
+      }
+    }
+  ]
+}

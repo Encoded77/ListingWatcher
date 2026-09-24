@@ -1,20 +1,20 @@
-"""Profil générique piloté par la config, sans code : mots-clés requis / interdits, familles par
-mots-clés, référence par expression régulière, quantité de lot. Suffit pour surveiller un objet
-précis (une carte graphique, un vélo, un appareil photo) en quelques lignes de YAML :
+"""Generic config-driven profile, no code: required / forbidden keywords, keyword-based
+families, regex reference, lot quantity. Enough to watch a specific object
+(a graphics card, a bike, a camera) in a few lines of YAML:
 
 profile:
   type: keywords
   keywords:
-    unit_label: ""                      # ou "€/Go" avec unit_divisor
+    unit_label: ""                      # or "€/Go" with unit_divisor
     unit_divisor: null
-    require_any: ["rtx 3080", "3080"]   # au moins un (titre + description), sinon rejet `no_match`
-    reject: ["pour pieces", "hs", "bloc alim"]          # titre + description
-    reject_title: ["boitier", "pc complet"]             # titre seulement
-    families:                            # premier qui matche → family
+    require_any: ["rtx 3080", "3080"]   # at least one (title + description), otherwise reject `no_match`
+    reject: ["pour pieces", "hs", "bloc alim"]          # title + description
+    reject_title: ["boitier", "pc complet"]             # title only
+    families:                            # first match → family
       - {name: "RTX 3080 Ti", any: ["3080 ti", "3080ti"]}
       - {name: "RTX 3080", any: ["3080"]}
-    model_regex: "\\b(?:TUF|ROG|GAMING X|VENTUS)[ \\w-]{0,12}\\b"   # optionnel, référence/variante
-    lot_regex: "\\blot de (\\d{1,2})\\b"                            # optionnel
+    model_regex: "\\b(?:TUF|ROG|GAMING X|VENTUS)[ \\w-]{0,12}\\b"   # optional, reference/variant
+    lot_regex: "\\blot de (\\d{1,2})\\b"                            # optional
 """
 from __future__ import annotations
 

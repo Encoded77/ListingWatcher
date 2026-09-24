@@ -1,8 +1,8 @@
-"""Un profil = tout ce qui est spécifique au type d'objet surveillé.
+"""A profile = everything specific to the kind of object being watched.
 
-Le cœur (sources, store, filtrage par prix, notifications, interface web) ne connaît que cette
-interface. Pour surveiller autre chose que des disques durs : écrire un profil (ou utiliser
-`keywords`, entièrement configurable) et le désigner dans config.yaml > watches.<veille>.profile.type."""
+The core (sources, store, price filtering, notifications, web UI) only knows this
+interface. To watch something other than hard drives: write a profile (or use
+`keywords`, fully configurable) and name it in config.yaml > watches.<watch>.profile.type."""
 from __future__ import annotations
 
 from typing import Any, Optional
@@ -12,15 +12,15 @@ from ..models import Listing, ModelInfo
 
 class Profile:
     name: str = "base"
-    #: unité de comparaison optionnelle : le prix rendu par article est divisé par `unit_divisor`
-    #: et affiché avec `unit_label` (ex. 8 et « €/To »). None = pas de métrique dérivée.
+    #: optional comparison unit: the delivered price per item is divided by `unit_divisor`
+    #: and displayed with `unit_label` (e.g. 8 and « €/To »). None = no derived metric.
     unit_divisor: Optional[float] = None
     unit_label: str = ""
-    #: libellés d'affichage des attributs posés dans ModelInfo.attrs (notification, interface)
+    #: display labels of the attributes set in ModelInfo.attrs (notification, UI)
     attr_labels: dict[str, str] = {}
-    #: drapeaux qui abaissent la priorité de notification (en plus de model_unknown, low_tier, ref_unverified)
+    #: flags that lower the notification priority (on top of model_unknown, low_tier, ref_unverified)
     low_flags: frozenset[str] = frozenset()
-    #: note ajoutée à la décision quand un drapeau est présent (« demander la RAM »…)
+    #: note added to the decision when a flag is present (« demander la RAM »…)
     flag_notes: dict[str, str] = {}
 
     def __init__(self, pcfg: dict[str, Any] | None = None):
@@ -35,14 +35,14 @@ class Profile:
         return round(unit_price / self.unit_divisor, 2)
 
     def format_per_unit(self, value: Optional[float]) -> str:
-        """Texte court pour un titre de notification, vide si le profil n'a pas de métrique."""
+        """Short text for a notification title, empty if the profile has no metric."""
         if value is None:
             return ""
         s = f"{value:.2f}".replace(".", ",")
         return f"{s[:-3] if s.endswith(',00') else s} {self.unit_label}".strip()
 
     def attr_lines(self, info: ModelInfo) -> list[str]:
-        """Lignes « Libellé : valeur » pour le corps d'une notification."""
+        """« Label : value » lines for a notification body."""
         out = []
         for key, label in self.attr_labels.items():
             v = info.attrs.get(key)
@@ -54,8 +54,8 @@ class Profile:
         return out
 
     def market_key(self, info: ModelInfo) -> tuple[Optional[str], Optional[str]]:
-        """Clés (fine, large) pour la médiane de marché : par défaut référence puis gamme."""
+        """(fine, broad) keys for the market median: by default reference, then family."""
         return info.model, info.family
 
-    def describe(self, listing: Listing, info: ModelInfo) -> str:  # pragma: no cover — surcharge optionnelle
+    def describe(self, listing: Listing, info: ModelInfo) -> str:  # pragma: no cover, optional override
         return info.label

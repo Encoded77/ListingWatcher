@@ -1,14 +1,14 @@
-"""Types partagés : annonce normalisée, résultat de classification, décision de filtrage.
+"""Shared types: normalized listing, classification result, filtering decision.
 
-Le cœur est générique (annonces, pas seulement disques durs) : ce qui est spécifique au domaine
-vit dans un profil (listingwatcher/profiles/) et transite ici par `ModelInfo.attrs`."""
+The core is generic (listings, not only hard drives): whatever is domain-specific
+lives in a profile (listingwatcher/profiles/) and travels here through `ModelInfo.attrs`."""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-# Plus la valeur est haute, plus le statut est défavorable. Utilisé pour fusionner
-# deux observations contradictoires de la même annonce (pages de résultats en cache).
+# The higher the value, the worse the status. Used to merge two contradictory
+# observations of the same listing (cached result pages).
 STATUS_RANK = {"active": 0, "gone": 1, "pending": 2, "sold": 3}
 
 
@@ -22,23 +22,23 @@ class Listing:
     listing_id: str
     url: str
     title: str
-    price: float                     # prix article, EUR
-    shipping: Optional[float] = None  # port vers la France ; None = inconnu
+    price: float                     # item price, EUR
+    shipping: Optional[float] = None  # shipping to France; None = unknown
     shipping_estimated: bool = False
-    fees: float = 0.0                # frais acheteur (protection leboncoin, etc.)
+    fees: float = 0.0                # buyer fees (leboncoin protection, etc.)
     currency: str = "EUR"
     description: str = ""
-    condition: str = ""              # libellé d'origine
+    condition: str = ""              # original label
     condition_code: str = "unknown"  # new | refurb | used | parts | unknown
     seller_name: str = ""
     seller_type: str = ""            # pro | private
-    seller_rating: Optional[float] = None   # en %
+    seller_rating: Optional[float] = None   # in %
     seller_reviews: Optional[int] = None
     location: str = ""
     country: str = "FR"
     delivery: Optional[bool] = None
     secure_payment: Optional[bool] = None
-    quantity: Optional[int] = None   # stock déclaré par la plateforme
+    quantity: Optional[int] = None   # stock declared by the platform
     returns: str = ""
     status: str = "active"           # active | pending | sold
     posted_at: str = ""
@@ -55,18 +55,18 @@ class Listing:
 
 @dataclass
 class ModelInfo:
-    """Résultat de classification d'une annonce par un profil.
+    """Result of a listing's classification by a profile.
 
-    `family` = gamme / catégorie (IronWolf, « vélo route »…), `model` = référence précise,
-    `attrs` = attributs propres au profil (capacités, heures SMART, taille…)."""
+    `family` = family / category (IronWolf, « vélo route »…), `model` = precise reference,
+    `attrs` = profile-specific attributes (capacities, SMART hours, size…)."""
     verdict: str                     # accept | reject
     family: Optional[str] = None
     model: Optional[str] = None
     brand: Optional[str] = None
-    reasons: list[str] = field(default_factory=list)   # motifs de rejet
+    reasons: list[str] = field(default_factory=list)   # reject reasons
     flags: list[str] = field(default_factory=list)     # model_unknown, ref_missing, ref_unverified, low_tier, lot, multi_capacity
     attrs: dict[str, Any] = field(default_factory=dict)
-    quantity: int = 1                # nombre d'articles déduit du titre (lot de N)
+    quantity: int = 1                # item count inferred from the title (lot of N)
 
     @property
     def accepted(self) -> bool:
@@ -90,8 +90,8 @@ class Decision:
     keep: bool
     tier: str                        # urgent | default | low | ignore | reject
     priority: str                    # urgent | default | low | none
-    unit_price: float                # prix rendu par article
-    per_unit: Optional[float] = None  # prix rendu ramené à l'unité du profil (€/To…), None si le profil n'en a pas
+    unit_price: float                # delivered price per item
+    per_unit: Optional[float] = None  # delivered price per profile unit (€/To…), None if the profile has none
     suspicious: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
@@ -101,5 +101,5 @@ class Decision:
 class FetchResult:
     source: str
     listings: list[Listing]
-    complete: bool = True            # False si la source n'a pas pu être parcourue entièrement
+    complete: bool = True            # False if the source could not be browsed entirely
     errors: list[str] = field(default_factory=list)

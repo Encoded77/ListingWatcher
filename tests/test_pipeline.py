@@ -1,4 +1,4 @@
-"""Bout en bout avec une source factice : notifie une fois, jamais deux fois à l'identique, baisse ≥ 5 %, vendu."""
+"""End to end with a fake source: notifies once, never twice for the same thing, drop ≥ 5 %, sold."""
 from listingwatcher.fetchers.base import BaseFetcher
 from listingwatcher.fetchers.http import BlockedError
 from listingwatcher.models import FetchResult, Listing
@@ -46,20 +46,20 @@ def test_notify_once_then_price_drop_only(cfg):
     src.listings = [L("1", 230.0), L("2", 350.0), L("3", 200.0, title="Disque dur externe 8To")]
     s = run_scan(ctx)["lbc"]
     assert s["fetched"] == 3 and s["new"] == 3 and s["kept"] == 1 and s["notified"] == 1
-    assert src.enriched == ["1"]            # seule l'annonce retenue est enrichie
+    assert src.enriched == ["1"]            # only the kept listing is enriched
     sent = ctx.notifier.sent
     assert len(sent) == 1 and sent[0]["title"].startswith("[LBC] IronWolf ST8000VN004 — 238,89 €")
     assert "SMART (h) : 4500" in sent[0]["message"] and sent[0]["click"].endswith("/1")
 
-    # même scan → rien
+    # same scan → nothing
     assert run_scan(ctx)["lbc"]["notified"] == 0
-    # baisse de 3 % → rien ; baisse de 6 % → notification
+    # 3 % drop → nothing; 6 % drop → notification
     src.listings[0] = L("1", 224.0)
     assert run_scan(ctx)["lbc"]["notified"] == 0
     src.listings[0] = L("1", 215.0)
     assert run_scan(ctx)["lbc"]["notified"] == 1
     assert ctx.notifier.sent[-1]["title"].startswith("↓ [LBC]")
-    # remontée puis même prix → rien
+    # price back up, then same price → nothing
     src.listings[0] = L("1", 230.0)
     assert run_scan(ctx)["lbc"]["notified"] == 0
 
@@ -79,10 +79,10 @@ def test_sold_not_notified_and_gone(cfg):
     assert run_scan(ctx)["lbc"]["notified"] == 0
     src.listings = [L("2", 230.0)]
     run_scan(ctx)
-    assert run_scan(ctx)["lbc"]["gone"] == 0        # "1" est vendu, pas "gone" ; "2" est vu
+    assert run_scan(ctx)["lbc"]["gone"] == 0        # "1" is sold, not "gone"; "2" is seen
     src.listings = []
     run_scan(ctx)
-    assert run_scan(ctx)["lbc"]["gone"] == 1        # "2" absente deux scans de suite
+    assert run_scan(ctx)["lbc"]["gone"] == 1        # "2" missing two scans in a row
     assert ctx.store.get("lbc", "2")["status"] == "gone"
 
 
@@ -104,10 +104,10 @@ def test_blocked_source_paused_and_degraded_notice_once(cfg):
     src.blocked = True
     assert run_scan(ctx) == {}
     assert ctx.store.source_blocked_until("lbc") is not None
-    sent = ctx.system_notifier.sent               # alerte technique : notifieur système, même pour une veille silencieuse
+    sent = ctx.system_notifier.sent               # technical alert: system notifier, even for a silent watch
     assert len(sent) == 1 and "bloqué" in sent[0]["title"] and ctx.notifier.sent == []
     run_scan(ctx)
-    assert len(sent) == 1          # en pause : pas de nouvel appel, pas de nouvelle alerte
+    assert len(sent) == 1          # paused: no new call, no new alert
 
 
 def test_digest_once_a_day(cfg):
@@ -118,7 +118,7 @@ def test_digest_once_a_day(cfg):
     msg = ctx.notifier.sent[-1]
     assert msg["title"].startswith("Digest Disques durs 8 To — 2 annonces")
     assert "/ad/x/1" in msg["message"] and "/ad/x/3" in msg["message"] and "/ad/x/2" not in msg["message"]
-    assert msg["message"].index("/ad/x/1") < msg["message"].index("/ad/x/3")     # trié par prix
+    assert msg["message"].index("/ad/x/1") < msg["message"].index("/ad/x/3")     # sorted by price
     assert not run_digest(ctx)
     assert run_digest(ctx, force=True)
 

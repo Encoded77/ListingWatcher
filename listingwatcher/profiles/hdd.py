@@ -1,4 +1,4 @@
-"""Profil disques durs : catalogue de références, règles SMR/SAS/4Kn, capacité cible, prix au To."""
+"""Hard-drive profile: reference catalog, SMR/SAS/4Kn rules, target capacity, price per TB."""
 from __future__ import annotations
 
 from typing import Any

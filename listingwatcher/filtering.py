@@ -1,5 +1,5 @@
-"""Scoring d'une annonce classée : paliers de prix rendu, priorité, âge, heuristiques anti-arnaque.
-Générique : le seul apport du profil est la métrique dérivée (€/To…) et la clé de marché."""
+"""Scoring of a classified listing: delivered-price tiers, priority, age, anti-scam heuristics.
+Generic: the profile's only contribution is the derived metric (€/To…) and the market key."""
 from __future__ import annotations
 
 from datetime import datetime, timezone
@@ -12,7 +12,7 @@ _LOW_FLAGS = {"model_unknown", "low_tier", "ref_unverified"}
 
 
 def listing_age_days(posted_at: str | None, now: datetime | None = None) -> Optional[int]:
-    """Âge en jours d'une date de publication ('2026-09-06 14:59:56' leboncoin, ISO 8601 eBay)."""
+    """Age in days of a publication date ('2026-09-06 14:59:56' leboncoin, ISO 8601 eBay)."""
     if not posted_at:
         return None
     s = posted_at.strip().replace("Z", "+00:00")
@@ -27,7 +27,7 @@ def listing_age_days(posted_at: str | None, now: datetime | None = None) -> Opti
 
 class MarketStats(Protocol):
     def median_unit_price(self, model: Optional[str], family: Optional[str]) -> tuple[Optional[float], int]:
-        """Médiane glissante du prix rendu par article, et nombre d'échantillons."""
+        """Rolling median of the delivered price per item, and number of samples."""
 
 
 class NoMarket:
@@ -56,7 +56,7 @@ class Filter:
         qty = max(1, info.quantity)
         notes: list[str] = []
         if qty > 1 and "multi_capacity" in info.flags:
-            # lot mixte (8 To + autres capacités) : diviser le prix par le nombre d'articles serait faux
+            # mixed lot (8 TB + other capacities): dividing the price by the item count would be wrong
             notes.append(f"lot mixte de {qty} articles, prix total non divisé")
             qty = 1
         delivered = listing.delivered_price
@@ -109,7 +109,7 @@ class Filter:
         suspicious = self._suspicious(listing, info, unit)
         return Decision(True, tier, priority, unit, per_unit, suspicious, notes, tags)
 
-    # ------------------------------------------------------------------ anti-arnaque
+    # ------------------------------------------------------------------ anti-scam
     def _suspicious(self, listing: Listing, info: ModelInfo, unit: float) -> list[str]:
         out: list[str] = []
         fine, broad = self.profile.market_key(info)

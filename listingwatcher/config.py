@@ -1,10 +1,10 @@
-"""Chargement de config.yaml : substitution ${VAR} / ${VAR:-défaut} depuis l'environnement, puis
-normalisation en **veilles** (`watches`).
+"""Loading of config.yaml: ${VAR} / ${VAR:-default} substitution from the environment, then
+normalization into **watches** (`watches`).
 
-Une veille = un objet surveillé : profil, paliers de prix, marché, anti-arnaque, recherches par source,
-toggle de notification. Le transport (délais, robots, identifiants, marketplaces) reste commun sous
-`sources`. Un config.yaml à l'ancien format (profil et recherches à la racine) est enveloppé dans une
-veille unique nommée `hdd`, celle qui porte les données déjà en base."""
+A watch = one watched object: profile, price tiers, market, anti-scam, searches per source,
+notification toggle. Transport (delays, robots, credentials, marketplaces) stays shared under
+`sources`. A config.yaml in the old format (profile and searches at the root) is wrapped into a
+single watch named `hdd`, the one that owns the data already in the database."""
 from __future__ import annotations
 
 import copy
@@ -18,7 +18,7 @@ _ENV = re.compile(r"\$\{([A-Za-z0-9_]+)(?::-([^}]*))?\}")
 
 LEGACY_WATCH = "hdd"
 
-#: clés d'une section `sources.<source>` qui décrivent *quoi* chercher (par veille) et non le transport
+#: keys of a `sources.<source>` section that describe *what* to search (per watch), not the transport
 SEARCH_KEYS = {"searches", "queries", "category_ids", "condition_ids", "price_min", "price_max"}
 
 
@@ -33,7 +33,7 @@ def _expand(value: Any) -> Any:
 
 
 def _legacy_watch(cfg: dict[str, Any]) -> dict[str, Any]:
-    """Ancien format : tout à la racine → une veille `hdd`."""
+    """Old format: everything at the root → a single `hdd` watch."""
     pcfg = cfg.get("profile") or {"type": "hdd"}
     sources = {}
     for key, scfg in (cfg.get("sources") or {}).items():
@@ -48,7 +48,7 @@ def _legacy_watch(cfg: dict[str, Any]) -> dict[str, Any]:
 
 
 def normalize_watches(cfg: dict[str, Any]) -> dict[str, Any]:
-    """Complète chaque veille avec les valeurs par défaut de la racine (notify, market, scam, thresholds)."""
+    """Completes each watch with the root defaults (notify, market, scam, thresholds)."""
     watches = cfg.get("watches")
     if not watches:
         watches = {LEGACY_WATCH: _legacy_watch(cfg)}
@@ -73,8 +73,8 @@ def normalize_watches(cfg: dict[str, Any]) -> dict[str, Any]:
 
 
 def watch_source_cfg(cfg: dict[str, Any], watch: dict[str, Any], key: str) -> dict[str, Any] | None:
-    """Section de source effective pour une veille : transport commun + recherches de la veille.
-    None si la veille n'utilise pas cette source ou si la source est désactivée."""
+    """Effective source section for a watch: shared transport + the watch's searches.
+    None if the watch does not use this source or if the source is disabled."""
     base = (cfg.get("sources") or {}).get(key)
     wsrc = watch.get("sources", {}).get(key)
     if base is None or wsrc is None:
@@ -89,7 +89,7 @@ def watch_source_cfg(cfg: dict[str, Any], watch: dict[str, Any], key: str) -> di
 def load_config(path: str | None = None) -> dict[str, Any]:
     path = path or os.environ.get("LISTINGWATCHER_CONFIG", "config.yaml")
     with open(path, encoding="utf-8") as f:
-        cfg = YAML(typ="safe", pure=True).load(f) or {}   # même dialecte (YAML 1.2) que l'édition web
+        cfg = YAML(typ="safe", pure=True).load(f) or {}   # same dialect (YAML 1.2) as the web editor
     cfg = _expand(cfg)
     cfg.setdefault("sources", {})
     cfg.setdefault("schedule", {})

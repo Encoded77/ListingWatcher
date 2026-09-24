@@ -1,5 +1,5 @@
-"""Réglages éditables : copie de travail, aller-retour YAML sans perte, validation, historique,
-API web et rechargement à chaud."""
+"""Editable settings: working copy, lossless YAML round trip, validation, history,
+web API and hot reload."""
 import json
 import re
 import shutil
@@ -24,7 +24,7 @@ FORM_KEYS = ("title", "enabled", "notify", "market", "scam", "thresholds", "lebo
 def mgr(tmp_path):
     live = tmp_path / "config.yaml"
     assert SettingsManager.ensure_live(str(live), str(ROOT / "config.yaml"))
-    assert not SettingsManager.ensure_live(str(live), str(ROOT / "config.yaml"))   # jamais écrasée ensuite
+    assert not SettingsManager.ensure_live(str(live), str(ROOT / "config.yaml"))   # never overwritten afterwards
     return SettingsManager(str(live), str(ROOT / "config.yaml"))
 
 
@@ -56,10 +56,10 @@ def test_unchanged_form_roundtrip_keeps_data_and_comments(mgr):
     before.pop("_path"), after.pop("_path")
     assert after == before
     text = _text(mgr)
-    for comment in ("# Plafond 600 € rendu", "# Internal Hard Disk Drives", "# Seuils sur le PRIX RENDU",
-                    "# gen : génération Intel du châssis", "# formats refusés"):
+    for comment in ("# 600 € delivered cap", "# Internal Hard Disk Drives", "# Tiers on the DELIVERED PRICE",
+                    "# gen: Intel generation of the chassis", "# rejected form factors"):
         assert comment in text
-    assert mgr.history() == []                          # rien n'a changé : aucune écriture, aucun historique
+    assert mgr.history() == []                          # nothing changed: no write, no history
 
 
 def test_edit_inherit_keeps_neighbouring_comments(mgr):
@@ -73,15 +73,15 @@ def test_edit_inherit_keeps_neighbouring_comments(mgr):
     assert w["notify"]["max_age_days"] == 60 and w["profile"]["pc"]["min_ram_gb"] == 32
     assert {"category": "ordinateurs", "slug": "m720q-i5"} in w["sources"]["leboncoin"]["searches"]
     text = _text(mgr)
-    assert "min_ram_gb: 32              # RAM inconnue" in text          # colonne du commentaire gardée
-    assert text.index("max_age_days: 60") < text.index("# Plafond 600 €") < text.index("thresholds:\n      - {max_delivered: 300")
+    assert "min_ram_gb: 32              # unknown RAM" in text           # comment column kept
+    assert text.index("max_age_days: 60") < text.index("# 600 € delivered cap") < text.index("thresholds:\n      - {max_delivered: 300")
 
     form = _form(snap, "minipc")
-    form["notify"]["max_age_days"] = ""                 # vide = hérité : la clé disparaît
+    form["notify"]["max_age_days"] = ""                 # empty = inherited: the key disappears
     snap = mgr.save_watch("minipc", {"form": form})
     w = load_config(mgr.path)["watches"]["minipc"]
-    assert w["notify"]["max_age_days"] == 120           # valeur de la racine
-    assert "max_age_days: 60" not in _text(mgr) and "# Plafond 600 €" in _text(mgr)
+    assert w["notify"]["max_age_days"] == 120           # root value
+    assert "max_age_days: 60" not in _text(mgr) and "# 600 € delivered cap" in _text(mgr)
     assert [h["reason"] for h in mgr.history()] == ["veille minipc", "veille minipc"]
 
 
@@ -114,7 +114,7 @@ def test_global_validation_and_conflict(mgr):
     snap2 = mgr.save_global({"form": form, "version": snap["version"]})
     assert load_config(mgr.path)["schedule"]["scan_times"] == ["07:20", "13:05"]
     with pytest.raises(ConflictError):
-        mgr.save_global({"form": form, "version": snap["version"]})       # version périmée
+        mgr.save_global({"form": form, "version": snap["version"]})       # stale version
     assert snap2["version"] != snap["version"]
 
 
@@ -134,18 +134,18 @@ def test_create_duplicate_toggle_delete_restore(mgr):
     assert cfg["watches"]["velo"]["thresholds"] == [{"max_delivered": 900, "priority": "default", "tags": ["fire"]}]
     assert "# mots-clés" in _text(mgr)
     snap = mgr.duplicate_watch("velo", "velo-2", snap["version"])
-    assert "velo-2" not in load_config(mgr.path)["watches"]                # copie désactivée
+    assert "velo-2" not in load_config(mgr.path)["watches"]                # the copy is disabled
     assert next(w for w in snap["watches"] if w["name"] == "velo-2")["enabled"] is False
     snap = mgr.set_enabled("velo-2", True, snap["version"])
     assert "velo-2" in load_config(mgr.path)["watches"]
     snap = mgr.delete_watch("velo-2", snap["version"])
     assert [w["name"] for w in snap["watches"]] == ["hdd", "minipc", "velo"]
-    # historique : la plus récente d'abord, nom de fichier ASCII
+    # history: most recent first, ASCII file name
     reasons = [h["reason"] for h in mgr.history()]
     assert reasons[0] == "suppression velo 2" and reasons[-1] == "creation velo"
-    snap = mgr.restore(mgr.history()[-1]["file"], snap["version"])        # avant la création
+    snap = mgr.restore(mgr.history()[-1]["file"], snap["version"])        # before the creation
     assert "velo" not in load_config(mgr.path)["watches"]
-    snap = mgr.restore(None, snap["version"])                             # config.yaml de l'image
+    snap = mgr.restore(None, snap["version"])                             # the image's config.yaml
     assert _text(mgr) == (ROOT / "config.yaml").read_text(encoding="utf-8") and not snap["image_changed"]
 
 
@@ -174,13 +174,13 @@ def test_image_changed_banner(mgr, tmp_path):
     shutil.copyfile(ROOT / "config.yaml", image)
     m = SettingsManager(mgr.path, str(image))
     assert not m.image_changed()
-    image.write_text(image.read_text(encoding="utf-8") + "\n# nouveauté\n", encoding="utf-8")
+    image.write_text(image.read_text(encoding="utf-8") + "\n# something new\n", encoding="utf-8")
     assert m.image_changed()
     m.restore(None, None)
     assert not m.image_changed()
 
 
-# ----------------------------------------------------------------------------- rechargement à chaud
+# ----------------------------------------------------------------------------- hot reload
 
 def test_runner_reload_applies_now_or_after_scan(mgr, tmp_path, monkeypatch):
     cfg = load_config(mgr.path)
@@ -201,16 +201,16 @@ def test_runner_reload_applies_now_or_after_scan(mgr, tmp_path, monkeypatch):
     assert runner.app.context("minipc").title == "Mini PC 1L" and runner.app.transports is app.transports
 
     monkeypatch.setattr("listingwatcher.scheduler.run_all", lambda a: {})
-    runner.lock.acquire()                                  # un scan tourne
+    runner.lock.acquire()                                  # a scan is running
     form["title"] = "Mini PC 2"
     snap = mgr.save_watch("minipc", {"form": form})
     assert snap["reload"] == "pending" and runner.app.context("minipc").title == "Mini PC 1L"
     runner.lock.release()
-    runner.run_blocking()                                  # fin de scan : la config en attente s'applique
+    runner.run_blocking()                                  # end of scan: the pending config applies
     assert runner.generation == 2 and runner.app.context("minipc").title == "Mini PC 2"
 
 
-# ----------------------------------------------------------------------------- API web
+# ----------------------------------------------------------------------------- web API
 
 @pytest.fixture
 def server(mgr, tmp_path):
@@ -251,7 +251,7 @@ def test_settings_api(server):
     code, out = _call(srv, "/api/settings/classify", {"name": "minipc", "form": form, "title": "Lenovo M90q Gen 2 i5-11500T 16 Go 512 Go SSD",
                                                       "price": "360", "shipping": "8"})
     assert code == 200 and out["info"]["verdict"] == "accept" and out["decision"]["tier"] == "default"
-    form["profile_yaml"] = form["profile_yaml"].replace("min_cpu: i5-10500T", "min_cpu: i7-12700T")   # brouillon non enregistré
+    form["profile_yaml"] = form["profile_yaml"].replace("min_cpu: i5-10500T", "min_cpu: i7-12700T")   # unsaved draft
     code, out = _call(srv, "/api/settings/classify", {"name": "minipc", "form": form, "title": "Lenovo M90q Gen 2 i5-11500T 16 Go 512 Go SSD"})
     assert code == 200 and out["info"]["verdict"] == "reject" and not reloads
     form["title"] = "Mini PC 1L"

@@ -1,5 +1,5 @@
-"""Plusieurs veilles dans un seul processus : base isolée par veille et migrée, transport partagé,
-veille silencieuse, interface à onglets, profil pc."""
+"""Several watches in a single process: per-watch isolated and migrated database, shared transport,
+silent watch, tabbed UI, pc profile."""
 import json
 import sqlite3
 import urllib.error
@@ -20,7 +20,7 @@ from tests.test_store import L as HL
 from tests.test_web import _get, _post
 
 
-# ----------------------------------------------------------------------------- base
+# ----------------------------------------------------------------------------- store
 
 def test_watches_are_isolated():
     base = Store()
@@ -31,7 +31,7 @@ def test_watches_are_isolated():
     assert a.get("lbc", "1")["unit_price"] == 208.89 and b.get("lbc", "1")["unit_price"] == 108.89
     assert base.watches() == ["a", "b"]
     assert a.stats()["listings"] == 1 and base.stats()["listings"] == 2
-    # même annonce, deux veilles : la médiane et le digest restent par veille
+    # same listing, two watches: the median and the digest stay per watch
     assert a.median_unit_price("ST8000VN004", "IronWolf") == (208.89, 1)
     assert b.median_unit_price("ST8000VN004", "IronWolf") == (108.89, 1)
     assert [r["watch"] for r in a.digest_rows()] == ["a"]
@@ -65,15 +65,15 @@ def test_migration_from_single_watch_schema(tmp_path):
     s = Store(db)
     row = s.get("hdd", "lbc", "42")
     assert row and row["review"] == "starred" and row["note"] == "a rappeler" and row["notify_count"] == 2
-    assert row["posted_at"] is None and row["attrs"] is None          # colonnes ajoutées au passage
+    assert row["posted_at"] is None and row["attrs"] is None          # columns added along the way
     assert s.get("minipc", "lbc", "42") is None
     assert s.price_history("hdd", "lbc", "42")[0]["unit_price"] == 210.0
     assert s.get_meta("digest_date") == "2026-09-09"
-    # la clé primaire inclut la veille : la même annonce peut exister dans une autre veille
+    # the primary key includes the watch: the same listing can exist in another watch
     s.for_watch("minipc").upsert(HL(price=100, lid="42"), I(), D(100))
     assert s.get("hdd", "lbc", "42")["unit_price"] == 210.0
     s.close()
-    s2 = Store(db)                                                       # deuxième ouverture : migration idempotente
+    s2 = Store(db)                                                       # second open: idempotent migration
     assert s2.stats()["listings"] == 2 and s2.watches() == ["hdd", "minipc"]
     s2.close()
 
@@ -82,10 +82,10 @@ def test_migration_from_single_watch_schema(tmp_path):
 
 def test_watches_do_not_mix_and_silent_watch_never_notifies(pc8_cfg):
     cfg = pc8_cfg
-    """La même annonce vue par deux veilles : chacune la classe, la stocke et la notifie (ou non) de son côté."""
+    """The same listing seen by two watches: each one classifies, stores and notifies it (or not) on its own."""
     from listingwatcher.pipeline import build_app, run_all, run_digests
     lbc = FakeSource()
-    lbc.supports_enrich = False        # la description factice « SMART… » n'a pas de sens pour un PC
+    lbc.supports_enrich = False        # the fake "SMART…" description makes no sense for a PC
     lbc.listings = [L("1", 230.0), L("2", 150.0, title="Lenovo M720q i5-8500T 16Go 256Go SSD")]
     app = build_app(cfg, db_path=":memory:", dry_run=True, fetchers=[lbc])
     assert [c.watch for c in app.contexts] == ["hdd", "minipc"]
@@ -99,10 +99,10 @@ def test_watches_do_not_mix_and_silent_watch_never_notifies(pc8_cfg):
     row = pc.store.get("lbc", "2")
     assert row["keep"] == 1 and row["family"] == "Lenovo M720q" and row["model"] == "i5-8500T"
     assert app.store.stats()["listings"] == 4 and hdd.store.stats()["listings"] == 2
-    # une baisse de prix sur la veille silencieuse ne notifie toujours pas
+    # a price drop on the silent watch still does not notify
     lbc.listings[1] = L("2", 100.0, title="Lenovo M720q i5-8500T 16Go 256Go SSD")
     assert run_all(app)["minipc"]["lbc"]["notified"] == 0 and pc.notifier.sent == []
-    # digest : seule la veille qui notifie envoie ; la silencieuse est marquée faite sans rien envoyer
+    # digest: only the notifying watch sends; the silent one is marked done without sending anything
     assert run_digests(app)
     assert hdd.notifier.sent[-1]["title"].startswith("Digest Disques durs 8 To") and pc.notifier.sent == []
     assert not run_digests(app)
@@ -119,7 +119,7 @@ def test_only_watch_and_unknown_watch(cfg):
 
 
 def test_shared_transport_and_page_cache(cfg, lbc_page1):
-    """Deux veilles avec la même recherche leboncoin : un seul client poli, la page n'est lue qu'une fois par scan."""
+    """Two watches with the same leboncoin search: a single polite client, the page is read only once per scan."""
     from listingwatcher.fetchers import build_fetchers, reset_transports
     from listingwatcher.fetchers.leboncoin import LeboncoinFetcher
     from tests.conftest import fake_html
@@ -135,10 +135,10 @@ def test_shared_transport_and_page_cache(cfg, lbc_page1):
     fb = build_fetchers(c, c["watches"]["b"], transports=transports)
     assert fa[0].client is fb[0].client is client and fa[0].transport is fb[0].transport
     assert len(fa[0].fetch().listings) == len(fb[0].fetch().listings) > 0
-    assert client.calls == [base]                       # page servie depuis le cache pour la 2e veille
+    assert client.calls == [base]                       # page served from the cache for the 2nd watch
     reset_transports(transports)
     fb[0].fetch()
-    assert client.calls == [base, base]                 # nouveau scan : relue
+    assert client.calls == [base, base]                 # new scan: read again
 
 
 # ----------------------------------------------------------------------------- web
@@ -168,7 +168,7 @@ def test_watch_tabs_and_scoping(multi):
     assert [w["name"] for w in ws] == ["hdd", "minipc"]
     assert ws[0]["kept_active"] == 2 and ws[0]["unit_label"] == "€/To" and ws[0]["notify_enabled"]
     assert ws[1]["kept_active"] == 1 and not ws[1]["notify_enabled"] and ws[1]["last_scan"].startswith("2026-09-10")
-    rows = json.loads(_get(srv, "/api/listings")[1])                     # première veille par défaut
+    rows = json.loads(_get(srv, "/api/listings")[1])                     # first watch by default
     assert [r["listing_id"] for r in rows] == ["1", "2"] and all(r["watch"] == "hdd" for r in rows)
     rows = json.loads(_get(srv, "/api/listings?watch=minipc")[1])
     assert [r["listing_id"] for r in rows] == ["1"] and rows[0]["unit_price"] == 126.9
@@ -186,7 +186,7 @@ def test_watch_tabs_and_scoping(multi):
     assert e.value.code == 400
 
 
-# ----------------------------------------------------------------------------- profil pc
+# ----------------------------------------------------------------------------- pc profile
 
 def _score(s):
     c = best_cpu(parse_cpus(norm(s)))
@@ -206,7 +206,7 @@ def test_pc_cpu_scores():
     assert _score("Pentium G5400") == ("Pentium", None)
     assert _score("i5 ou i7-8700T au choix") == ("i7-8700T", 11)
     assert _score("Mini PC très rapide") is None
-    assert _score("Dell OptiPlex 3060 Micro - I5 - 8 GO") == ("i5", None)       # gamme seule : génération inconnue
+    assert _score("Dell OptiPlex 3060 Micro - I5 - 8 GO") == ("i5", None)       # family only: unknown generation
     assert _score("Core i5 vPro") == ("i5", None)
 
 
@@ -240,15 +240,15 @@ def test_pc_profile_classification(pc8_cfg):
     assert p.classify("HP ProDesk 400 G4 Mini i5-8500T 8Go 256Go").family == "HP ProDesk 400 G4 Mini"
     assert p.classify("HP EliteDesk 800 G4 mini i5 8500T 16go").family == "HP EliteDesk 800 G4 Mini"
 
-    # plancher de performance, pas de CPU exact
-    assert p.classify("OptiPlex 3060 Micro i3-10100T 8Go 256Go").accepted        # i3 10e gén. = i5 8e gén.
+    # performance floor, no exact CPU
+    assert p.classify("OptiPlex 3060 Micro i3-10100T 8Go 256Go").accepted        # 10th gen i3 = 8th gen i5
     assert p.classify("OptiPlex 3060 Micro i7-7700T 8Go 256Go").accepted
     assert p.classify("OptiPlex 3060 Micro i5-7500T 8Go 256Go").reasons == ["cpu_below:i5-7500T"]
     assert p.classify("OptiPlex 3060 Micro i3-8100T 8Go 256Go").reasons == ["cpu_below:i3-8100T"]
     assert p.classify("Mini PC Celeron J4125 8Go 128Go").reasons == ["cpu_below:Celeron"]
     assert p.classify("OptiPlex 3060 Micro i5-8500T 4Go 128Go").reasons == ["ram_below:4"]
 
-    # informations manquantes : signalées, priorité basse via cpu_unknown, pas rejetées
+    # missing information: flagged, low priority via cpu_unknown, not rejected
     unk = p.classify("Lenovo M720q 16Go 256Go SSD")
     assert unk.accepted and "cpu_unknown" in unk.flags and unk.model is None and unk.label == "Lenovo M720q (réf. ?)"
     assert "cpu_unknown" in p.low_flags
@@ -259,36 +259,36 @@ def test_pc_profile_classification(pc8_cfg):
     nosto = p.classify("M720q i5-8500T 8Go, sans disque")
     assert nosto.accepted and "no_storage" in nosto.flags and "storage_unknown" not in nosto.flags
 
-    # châssis hors catalogue : accepté en priorité basse ; ni châssis ni CPU : pas un PC ciblé
+    # chassis outside the catalogue: accepted at low priority; neither chassis nor CPU: not a targeted PC
     nuc = p.classify("Intel NUC i5-8259U 16Go 512Go")
     assert nuc.accepted and "family_unknown" in nuc.flags and nuc.family is None and nuc.model == "i5-8259U"
     assert p.classify("Seagate IronWolf ST8000VN004 8To").reasons == ["no_match"]
     assert p.classify("Mini PC 16Go 256Go très rapide").reasons == ["no_match"]
 
-    # génération déduite du châssis quand le titre ne donne que la gamme
+    # generation inferred from the chassis when the title only gives the family
     g = p.classify("Dell OptiPlex 3060 Micro - I5 - 8 GO - SSD 250 GO")
     assert g.accepted and g.model == "i5 (8e gén.)" and g.attrs["cpu_score"] == 10 and "cpu_gen_assumed" in g.flags
     assert "cpu_unknown" not in g.flags and g.attrs["ram_gb"] == 8 and g.attrs["storage_gb"] == 250
     assert p.classify("Pack Mini PC Dell OptiPlex 3060 Micro – i3, 16 Go RAM, SSD 1 To").reasons == ["cpu_below:i3 (8e gén.)"]
-    assert p.classify("Intel NUC i5 16Go").reasons == ["no_match"]                    # ni châssis ni génération
+    assert p.classify("Intel NUC i5 16Go").reasons == ["no_match"]                    # neither chassis nor generation
     assert p.classify("Mini pc - i5").reasons == ["no_match"]
     assert p.classify("Recherche dell 3060 en i3 4 ou 8Go de Ram").reasons == ["wanted"]
     m = p.classify("Lenovo M720q — Intel i5 | 16 Go RAM | 256 Go SSD")
     assert m.accepted and m.model == "i5 (8e gén.)" and m.attrs["ram_gb"] == 16 and m.attrs["storage_gb"] == 256
     assert p.classify("Ordinateur - PC HP ProDesk 400G4 - Intel i5").family == "HP ProDesk 400 G4 Mini"
 
-    # lots avec écran / clavier : gardés mais signalés ; processeur seul : rejeté
+    # bundles with screen / keyboard: kept but flagged; bare processor: rejected
     b = p.classify("PC HP mini Prodesk 400 G4 i5-8500T + ecran HP E223")
     assert b.accepted and "bundle" in b.flags and "bundle" in p.low_flags
     assert p.classify("Processeur Intel i5 9500T").reasons == ["cpu_only"]
     assert p.classify("Lenovo M720q i5-8500T parfait pour serveur Home Assistant").accepted
 
-    # rejets : formats non 1 litre, portables, morts, pièces
+    # rejects: non-1-litre form factors, laptops, dead units, parts
     assert p.classify("Dell OptiPlex 3060 SFF i5-8500 8Go").reasons == ["form:sff"]
     assert p.classify("Dell OptiPlex 7060 tour i7-8700").reasons == ["form:tour"]
     assert p.classify("Mini tour HP 260 G4 Desktop i5 10Th Gen 8g nvme 256go").reasons == ["form:mini tour"]
-    assert p.classify("Micro tour Windows 11 - Lenovo Thinkcentre M720q Tiny - Core i5").accepted   # « tiny » subsiste
-    assert p.classify("Dell OptiPlex 3060 MT i5-8500, micro casque offert").accepted   # mot « micro » : pas de rejet
+    assert p.classify("Micro tour Windows 11 - Lenovo Thinkcentre M720q Tiny - Core i5").accepted   # "tiny" survives
+    assert p.classify("Dell OptiPlex 3060 MT i5-8500, micro casque offert").accepted   # the word "micro": no reject
     assert p.classify("HP ProBook 400 G4 i5-8250U 8Go").reasons[0].startswith("reject:probook")
     assert p.classify("Lenovo M720q i5-8500T HS pour pièces").reasons[0].startswith("reject:")
     assert not p.classify("Lenovo M720q i5-8500T", condition_code="parts").accepted
@@ -311,4 +311,4 @@ def test_pc_profile_end_to_end(pc8_cfg):
     d2 = flt.decide(l2, p.classify(l2.title))
     assert d2.keep and d2.priority == "low" and "demander le processeur exact" in d2.notes
     l3 = Listing("lbc", "3", "u", "Lenovo M720q i5-8500T 16Go 256Go SSD", 260.0, shipping=9.9, seller_reviews=12, delivery=True)
-    assert not flt.decide(l3, p.classify(l3.title)).keep                # > 250 € rendu
+    assert not flt.decide(l3, p.classify(l3.title)).keep                # > 250 € delivered

@@ -1,12 +1,12 @@
-"""Extraction d'un modèle canonique à partir d'un titre (et d'une description) bruités.
+"""Extraction of a canonical model from a noisy title (and description).
 
-C'est ici que se joue la qualité de l'outil : chaque règle correspond à un piège
-rencontré sur de vraies annonces. Ordre d'évaluation :
-  1. rejets durs sur le texte (disque mort, SSD, externe, 2,5", NAS vendu avec disques, accessoire)
-  2. références extraites et classées (catalogue de config puis règles structurelles)
-  3. mots-clés SAS / SMR
-  4. cohérence des capacités (≠ 8 To → rejet ; 3 capacités et plus → générique)
-  5. famille déduite d'un mot-clé si aucune référence (IronWolf, Exos…)
+This is where the tool's quality is decided: every rule matches a trap met on
+real listings. Evaluation order:
+  1. hard rejects on the text (dead drive, SSD, external, 2.5", NAS sold with drives, accessory)
+  2. references extracted and classified (config catalog, then structural rules)
+  3. SAS / SMR keywords
+  4. capacity consistency (≠ 8 TB → reject; 3 capacities or more → generic)
+  5. family inferred from a keyword when there is no reference (IronWolf, Exos…)
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from typing import Any, Optional
 
 from .models import ModelInfo
 
-# --------------------------------------------------------------------------- texte
+# --------------------------------------------------------------------------- text
 
 
 def strip_accents(s: str) -> str:
@@ -24,7 +24,7 @@ def strip_accents(s: str) -> str:
 
 
 def norm(s: str) -> str:
-    """Minuscules, sans accents, espaces compactés, apostrophes/guillemets unifiés."""
+    """Lowercase, accents stripped, whitespace collapsed, apostrophes/quotes unified."""
     s = strip_accents(s or "")
     for a, b in (("’", "'"), ("“", '"'), ("”", '"'), ("″", '"'), ("''", '"'),
                  ("—", "-"), ("–", "-")):
@@ -36,7 +36,7 @@ def _kw_regex(words: list[str]) -> re.Pattern:
     parts = []
     for w in words:
         w = norm(w)
-        # frontière de mot uniquement là où le mot commence/finit par un alphanumérique
+        # word boundary only where the word starts/ends with an alphanumeric
         left = r"(?<![a-z0-9])" if re.match(r"[a-z0-9]", w) else ""
         right = r"(?![a-z0-9])" if re.search(r"[a-z0-9]$", w) else ""
         parts.append(left + re.escape(w) + right)
@@ -45,9 +45,9 @@ def _kw_regex(words: list[str]) -> re.Pattern:
 
 _NEGATION = re.compile(r"(aucun|aucune|sans|pas de|zero|no|ohne|keine|non|0)\s*$")
 
-# --------------------------------------------------------------------------- références
+# --------------------------------------------------------------------------- references
 
-# Chaque motif tolère un espace ou un tiret aux points de coupure habituels.
+# Every pattern tolerates a space or a dash at the usual break points.
 _SEAGATE = re.compile(r"(?<![A-Z0-9])ST[ \-]?(\d{4,5})[ \-]?([A-Z]{2})[ \-]?(\d{3,4}[A-Z]?)(?![A-Z0-9])")
 _WD = re.compile(r"(?<![A-Z0-9])WD[ \-]?(\d{2,4})[ \-]?([A-Z]{4})(?![A-Z0-9])")
 _HGST = re.compile(
@@ -115,7 +115,7 @@ class RefHit:
 
 
 class Catalog:
-    """Catalogue issu de config.yaml (accept / low_tier / reject) + règles structurelles."""
+    """Catalog built from config.yaml (accept / low_tier / reject) + structural rules."""
 
     def __init__(self, models_cfg: dict[str, Any] | None = None, target_tb: float = 8):
         models_cfg = models_cfg or {}
@@ -174,7 +174,7 @@ class Catalog:
         if hit:
             return hit
         if kind == "accept":
-            # famille connue mais référence hors catalogue : vérifier l'interface avant d'acheter
+            # known family but reference outside the catalog: check the interface before buying
             return RefHit(ref, fam, "Seagate", "accept", "ref_unverified", cap)
         if kind == "low_tier":
             return RefHit(ref, fam, "Seagate", "accept", "low_tier", cap)
@@ -238,7 +238,7 @@ class Catalog:
         return RefHit(short, fam, "Toshiba", "accept", "ref_unverified", cap)
 
 
-# --------------------------------------------------------------------------- mots-clés
+# --------------------------------------------------------------------------- keywords
 
 DEFAULT_KEYWORDS: dict[str, list[str]] = {
     "dead": ["pour pieces", "pour piece", "piece detachee", "pieces detachees", "hs", "h.s", "ne fonctionne pas",
@@ -260,7 +260,7 @@ DEFAULT_KEYWORDS: dict[str, list[str]] = {
                      "boitier vide", "nvme", "m.2"],
 }
 
-# Mots-clés de famille quand la référence manque : (regex, famille, marque, low_tier)
+# Family keywords when the reference is missing: (regex, family, brand, low_tier)
 _FAMILY_HINTS: list[tuple[re.Pattern, str, str, bool]] = [
     (re.compile(r"ironwolf ?pro"), "IronWolf Pro", "Seagate", False),
     (re.compile(r"iron ?wolf"), "IronWolf", "Seagate", False),
@@ -300,9 +300,9 @@ _QTY = [
     re.compile(r"(?<![\d,.\"'])(\d{1,2})\s?x?\s+(?:seagate|segate|wd|western|toshiba|hgst|hitachi|exos|ironwolf|ultrastar)\b"),
 ]
 _NAS_MODEL = re.compile(r"\b(?:ds|rs|dxp)\d{3,4}[a-z+]*\b|\bts-?\d{3,4}[a-z]*\b")
-# nom de gamme Seagate Exos qui encode la capacité : 7E8 = 8 To, 7E2000 = 2 To, 7E10 = 10 To, X16 = 16 To
+# Seagate Exos family name that encodes the capacity: 7E8 = 8 TB, 7E2000 = 2 TB, 7E10 = 10 TB, X16 = 16 TB
 _EXOS_NAME = re.compile(r"\b7e\s?(\d{1,2})(000)?\b|\bexos\s?x(\d{2})\b")
-# « soit 8 To », « total 8 To », « (8 To au total) », « = 8 To » : capacité totale d'un lot, pas par disque
+# « soit 8 To », « total 8 To », « (8 To au total) », « = 8 To »: total capacity of a lot, not per drive
 _TOTAL_CTX = re.compile(r"(?:\btotal\b|\bsoit\b|\bcumul[ée]*\b|=)\s*[:(]?\s*(\d{1,2})\s?(?:to|tb)\b|(\d{1,2})\s?(?:to|tb)\s+(?:au total|en tout|cumul[ée]s?)")
 _GENERIC = re.compile(
     r"plusieurs (modeles|capacites|tailles|disques|references)|multiples? capacites|differentes capacites"
@@ -335,7 +335,7 @@ class Classifier:
         full = f"{t} {d}".strip()
         info = ModelInfo(verdict="accept")
 
-        # 1. rejets durs
+        # 1. hard rejects
         if condition_code == "parts" or _find_kw(self.rx["dead"], full, negation_aware=True):
             return self._reject(info, "dead")
         if _SSD.search(t) and not re.search(r"\bhdd\b", t):
@@ -349,33 +349,33 @@ class Classifier:
         if _find_kw(self.rx["other_device"], t):
             return self._reject(info, "other_device")
 
-        # 2. références
+        # 2. references
         hits = self.catalog.extract(f"{title}\n{description}")
         target_hits = [h for h in hits if h.capacity is None or abs(h.capacity - self.target) < 0.01]
         good = [h for h in target_hits if h.verdict == "accept"]
         bad = [h for h in target_hits if h.verdict == "reject"]
         chosen: Optional[RefHit] = None
         if good:
-            # préférer une réf. du catalogue (sans flag) à une réf. seulement structurelle
+            # prefer a catalog reference (no flag) over a merely structural one
             good.sort(key=lambda h: (h.reason is not None, h.reason == "low_tier"))
             chosen = good[0]
         elif bad:
             info.model, info.family, info.brand = bad[0].ref, bad[0].family, bad[0].brand
             return self._reject(info, bad[0].reason or "rejected_ref")
         elif hits:
-            # référence(s) trouvée(s) mais d'une autre capacité
+            # reference(s) found, but of another capacity
             info.model, info.family, info.brand = hits[0].ref, hits[0].family, hits[0].brand
             info.attrs["capacities_tb"] = sorted({h.capacity for h in hits if h.capacity})
             rejected = [h for h in hits if h.verdict == "reject"]
             if rejected:
-                # « 8To » dans le titre mais la seule référence citée est un ST6000AS0002 (6 To, SMR) :
-                # la référence l'emporte sur le texte
+                # « 8To » in the title but the only reference quoted is an ST6000AS0002 (6 TB, SMR):
+                # the reference wins over the text
                 info.model, info.family, info.brand = rejected[0].ref, rejected[0].family, rejected[0].brand
                 return self._reject(info, rejected[0].reason or "rejected_ref")
             if not self._text_has_target(t):
                 return self._reject(info, "capacity_mismatch")
 
-        # 3. SAS / SMR par mots-clés (titre = rejet ; description = rejet seulement sans réf. SATA acceptée)
+        # 3. SAS / SMR by keywords (title = reject; description = reject only without an accepted SATA reference)
         sas_t = _find_kw(self.rx["sas"], t)
         sas_d = _find_kw(self.rx["sas"], d)
         if sas_t or (sas_d and not (chosen and chosen.reason is None)):
@@ -384,29 +384,29 @@ class Classifier:
         if smr_t and not (smr_t == "smr" and re.search(r"\bcmr\b", t)):
             return self._reject(info, "smr")
 
-        # 4. capacités
+        # 4. capacities
         caps = self._capacities(full)
         qty = self._quantity(t)
         if qty > 1 and _TOTAL_CTX.search(t) and not any(abs(c - self.target) < 0.01 for c in caps):
-            # « 8x disque dur (total 8 To) » : le 8 To n'est que la somme du lot
+            # « 8x disque dur (total 8 To) »: the 8 TB is only the sum of the lot
             return self._reject(info, "capacity_mismatch")
         if chosen and chosen.capacity:
             caps.add(chosen.capacity)
         if _COMMA_LIST.search(t) or _GENERIC.search(t):
             return self._reject(info, "generic")
         if not caps and not chosen:
-            # ni capacité ni référence : on ne sait même pas si c'est un 8 To
+            # neither capacity nor reference: we do not even know whether it is an 8 TB
             return self._reject(info, "no_capacity")
         if caps:
             if self.target not in caps and not chosen:
                 info.attrs["capacities_tb"] = sorted(caps)
                 return self._reject(info, "capacity_mismatch")
             others = {c for c in caps if abs(c - self.target) >= 0.01}
-            # « 16 disques de 500 Go » : 8 To n'est que le total du lot
+            # « 16 disques de 500 Go »: 8 TB is only the total of the lot
             if qty > 1 and any(abs(c * qty - self.target) < 0.01 for c in others):
                 info.attrs["capacities_tb"] = sorted(caps)
                 return self._reject(info, "capacity_mismatch")
-            # "2x 8To = 16To" : la capacité totale d'un lot n'est pas une capacité concurrente
+            # "2x 8To = 16To": the total capacity of a lot is not a competing capacity
             others = {c for c in others if not (qty > 1 and abs(c - self.target * qty) < 0.01)}
             if len(others) >= 2:
                 info.attrs["capacities_tb"] = sorted(caps)
@@ -415,7 +415,7 @@ class Classifier:
                 info.flags.append("multi_capacity")
         info.attrs["capacities_tb"] = sorted(caps)
 
-        # 5. modèle / famille
+        # 5. model / family
         if chosen:
             info.model, info.family, info.brand = chosen.ref, chosen.family, chosen.brand
             if chosen.reason:
@@ -434,7 +434,7 @@ class Classifier:
                         info.brand = brand
                         break
 
-        # 6. lot, heures
+        # 6. lot, hours
         if qty > 1:
             info.quantity = qty
             info.flags.append("lot")
@@ -455,9 +455,9 @@ class Classifier:
 
     @staticmethod
     def _capacities(text: str) -> set[float]:
-        """Capacités par disque citées dans le texte. Une capacité annoncée comme total d'un lot
-        (« soit 8 To », « total 8 To ») ne compte pas ; le nom de gamme Exos (7E8) n'est qu'un
-        indice, utilisé seulement quand rien d'autre n'est écrit."""
+        """Per-drive capacities quoted in the text. A capacity announced as the total of a lot
+        (« soit 8 To », « total 8 To ») does not count; the Exos family name (7E8) is only a
+        hint, used only when nothing else is written."""
         caps = {float(m.group(1)) for m in _CAP_TB.finditer(text)}
         caps |= {int(m.group(1)) / 1000 for m in _CAP_GB.finditer(text) if int(m.group(1)) >= 100}
         totals = {float(m.group(1) or m.group(2)) for m in _TOTAL_CTX.finditer(text)}

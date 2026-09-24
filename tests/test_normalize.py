@@ -1,7 +1,7 @@
-"""Le classifieur de modèles, sur des titres réels rencontrés (brief) et sur les pièges relevés en scannant."""
+"""The model classifier, on real titles encountered (brief) and on the traps found while scanning."""
 import pytest
 
-# ---- cas du brief : (titre, verdict attendu, famille attendue ou motif de rejet)
+# ---- brief cases: (title, expected verdict, expected family or reject reason)
 BRIEF_CASES = [
     ("Toshiba MG05ACA800E 8 To SATA III 7200 tr/min", "accept", "Toshiba MG"),
     ("Seagate IronWolf ST8000VN004 8Tb (9000h environ, évolutif)", "accept", "IronWolf"),
@@ -32,7 +32,7 @@ def test_brief_model_unknown(classifier):
     assert info.model is None
 
 
-# ---- titres réels vus sur leboncoin pendant le développement
+# ---- real titles seen on leboncoin during development
 REAL_CASES = [
     ("Disque dur 8To - Seagate Barracuda [HS]", "reject", "dead"),
     ("Disque dur ssd sasmsung 8to", "reject", "ssd"),
@@ -100,7 +100,7 @@ def test_real_accepts(classifier, title, family, model, flags):
         assert not ({"model_unknown", "ref_missing", "ref_unverified", "low_tier"} & set(info.flags)), info
 
 
-# ---- règles structurelles sur les références inconnues du catalogue
+# ---- structural rules on references missing from the catalogue
 @pytest.mark.parametrize("ref,verdict,reason", [
     ("HUH728080ALN600", "reject", "4kn"),
     ("HUH728080AL5200", "reject", "sas"),
@@ -127,7 +127,7 @@ def test_structural_refs(classifier, ref, verdict, reason):
         assert info.model == ref
 
 
-# ---- extraction d'infos annexes
+# ---- extraction of side information
 def test_lot_quantity_and_hours(classifier):
     info = classifier.classify("Lot de 2 Disques dur Seagate Exos 7E8 8To", "env 13000h d'usage, SMART OK")
     assert info.accepted and info.quantity == 2 and "lot" in info.flags
@@ -168,7 +168,7 @@ def test_condition_parts_rejects(classifier):
 
 def test_sas_in_description_only_without_catalog_ref(classifier):
     assert not classifier.classify("Disque 8To entreprise", "Interface SAS 12Gb/s").accepted
-    # une réf. SATA du catalogue l'emporte sur un « SAS » de la description (ex : "SATA, pas SAS")
+    # a catalogue SATA reference wins over a "SAS" in the description (e.g. "SATA, pas SAS")
     assert classifier.classify("Seagate Exos ST8000NM0055", "SATA 6Gb/s (pas SAS)").accepted
 
 
@@ -184,15 +184,15 @@ def test_smr_keyword_explicit_cmr(classifier):
 
 def test_capacity_regex_ignores_speed_and_hours(classifier):
     info = classifier.classify("Disque dur 8 To 7200t SATA 12 Gb/s 5000h")
-    # 12 Gb/s → SAS ; on vérifie ici seulement les capacités et heures
+    # 12 Gb/s → SAS; here we only check capacities and hours
     assert info.attrs.get("capacities_tb", []) == [8.0] or "sas" in info.reasons
     info = classifier.classify("Disque dur 8 To 7200t SATA 5000h")
     assert info.attrs.get("capacities_tb", []) == [8.0] and info.attrs.get("smart_hours") == 5000
 
 
-# ---- pièges relevés par la première sonde réelle sous Docker (9 septembre 2026)
+# ---- traps found by the first real probe under Docker (9 September 2026)
 @pytest.mark.parametrize("title,verdict,expect", [
-    ("Disque dur Seagate 7E 2000", "reject", "capacity_mismatch"),        # Exos 7E2000 = 2 To
+    ("Disque dur Seagate 7E 2000", "reject", "capacity_mismatch"),        # Exos 7E2000 = 2 TB
     ("Hard drive plusieurs modèles", "reject", "generic"),
     ("Disque dur seagate", "reject", "no_capacity"),
     ("Disque dur Seagate Exos X16", "reject", "capacity_mismatch"),
@@ -215,18 +215,18 @@ def test_probe_lots_and_exos_name_capacity(classifier, title, qty):
 
 
 def test_inch_marker_is_not_a_lot(classifier):
-    # « 3''5 » = 3,5 pouces, pas un lot de 5 (vu sur une vraie annonce WD Gold)
+    # "3''5" = 3.5 inches, not a lot of 5 (seen on a real WD Gold listing)
     info = classifier.classify("Disque dur 8to 3''5 WD Gold WD8004FRYZ SATA III")
     assert info.accepted and info.quantity == 1 and "lot" not in info.flags
 
 
-# ---- faux positifs relevés lors du premier scan complet en production (11 recherches, 807 annonces)
+# ---- false positives found during the first full production scan (11 searches, 807 listings)
 @pytest.mark.parametrize("title,expect", [
-    ("HDD Seagate Exos 7E8 4 To SATA Enterprise", "capacity_mismatch"),        # 7E8 = gamme, 4 To = le disque
+    ("HDD Seagate Exos 7E8 4 To SATA Enterprise", "capacity_mismatch"),        # 7E8 = family, 4 TB = the drive
     ("Disque dur 3\"5 Seagate Exos 7E8 S-ATA III 6 To ST6000NM021A", "capacity_mismatch"),
     ("Seagate Exos 7E8 4to HDD", "capacity_mismatch"),
     ("Lot 16 disques durs de 500 Go, soit 8 To  SATA - 3.5\"", "capacity_mismatch"),
-    ("🟡 8x Disque dur 3,5\" (total 8 To)", "capacity"),         # no_capacity ou capacity_mismatch : rejeté
+    ("🟡 8x Disque dur 3,5\" (total 8 To)", "capacity"),         # no_capacity or capacity_mismatch: rejected
     ("NAS Buffalo TeraStation 5410RN 4x8To 10Gbe", "nas_bundle"),
     ("Wd book 8 tb", "external"),
     ("Disque dur 8To USB3", "external"),
@@ -243,7 +243,7 @@ def test_exos_name_still_counts_when_nothing_else(classifier):
 
 
 @pytest.mark.parametrize("title,expect", [
-    ("Hdd Seagate 3.5 8To en parfait état fonctionnel. Compatible NAS ST6000AS0002", "smr"),   # la réf. l'emporte sur le « 8To »
+    ("Hdd Seagate 3.5 8To en parfait état fonctionnel. Compatible NAS ST6000AS0002", "smr"),   # the reference wins over the "8To"
     ("NAS WD MyCloud 8 Tb", "nas_bundle"),
 ])
 def test_production_false_positives_second_pass(classifier, title, expect):

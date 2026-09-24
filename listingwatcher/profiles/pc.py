@@ -1,23 +1,23 @@
-"""Profil PC (mini PC, tour, portable…) : plancher de **performance** plutôt que référence exacte.
+"""PC profile (mini PC, tower, laptop…): a **performance** floor rather than an exact reference.
 
-Le CPU est extrait du titre puis de la description (Intel Core iN-XXXX, Pentium/Celeron, AMD Ryzen)
-et ramené à un score : génération + bonus de gamme (i3 0, i5 +2, i7 +3, i9 +4). Un i5-8400 vaut 10,
-comme un i7-7700 ou un i3-10100. `min_cpu` (ex. « i5-8400 ») fixe le plancher. RAM et stockage sont
-lus en Go, comparés à `min_ram_gb` / `min_storage_gb`, et signalés s'ils manquent.
+The CPU is extracted from the title, then the description (Intel Core iN-XXXX, Pentium/Celeron, AMD Ryzen)
+and reduced to a score: generation + tier bonus (i3 0, i5 +2, i7 +3, i9 +4). An i5-8400 is worth 10,
+like an i7-7700 or an i3-10100. `min_cpu` (e.g. « i5-8400 ») sets the floor. RAM and storage are
+read in GB, compared to `min_ram_gb` / `min_storage_gb`, and flagged when missing.
 
-La gamme (`family`) est le châssis, reconnue par mots-clés (M720q, OptiPlex 3060 Micro…) ; la
-« référence » (`model`) est le CPU, ce qui donne un libellé « Lenovo M720q i5-8500T » et une médiane
-de marché par CPU puis par châssis.
+The family (`family`) is the chassis, recognized by keywords (M720q, OptiPlex 3060 Micro…); the
+"reference" (`model`) is the CPU, which gives a label « Lenovo M720q i5-8500T » and a market
+median per CPU, then per chassis.
 
-Configuration (watches.<veille>.profile.pc) :
-  min_cpu: i5-8400                 # plancher (vide = aucun) ; un CPU inconnu n'est pas rejeté mais signalé
-  min_ram_gb: 8                    # 0 = pas de minimum
+Configuration (watches.<watch>.profile.pc):
+  min_cpu: i5-8400                 # floor (empty = none); an unknown CPU is not rejected but flagged
+  min_ram_gb: 8                    # 0 = no minimum
   min_storage_gb: 0
-  require_family: false            # true = rejeter les châssis hors catalogue
-  families: [{name: Lenovo M720q, any: [m720q], gen: 8}, …]   # gen : génération CPU du châssis, pour « M720q i5 » sans numéro
-  reject: [...]                    # titre + description (défaut : mots-clés « mort » du profil hdd)
+  require_family: false            # true = reject chassis outside the catalog
+  families: [{name: Lenovo M720q, any: [m720q], gen: 8}, …]   # gen: CPU generation of the chassis, for « M720q i5 » without a number
+  reject: [...]                    # title + description (default: the hdd profile's "dead" keywords)
   reject_title: [portable, laptop…]
-  reject_form: [sff, tour, tower, mt]   # formats refusés (titre), sauf si un mot de mini_any est présent
+  reject_form: [sff, tour, tower, mt]   # rejected form factors (title), unless a mini_any word is present
   mini_any: [micro, mini, tiny, usff]
 """
 from __future__ import annotations
@@ -38,7 +38,7 @@ _INTEL_GEN = re.compile(
     r"(?<![a-z0-9])(?:core\s*)?i([3579])(?![a-z0-9\-])[^.,;()]{0,25}?(\d{1,2})\s?(?:e|eme|th|st|nd|rd)?\s?(?:gen\b|generation)"
 )
 _LOWEND = re.compile(r"\b(celeron|pentium|athlon)\b")
-_INTEL_TIER = re.compile(r"(?<![a-z0-9])(?:core\s*)?i([3579])(?![a-z0-9\-])")     # « i5 » seul, sans numéro ni génération
+_INTEL_TIER = re.compile(r"(?<![a-z0-9])(?:core\s*)?i([3579])(?![a-z0-9\-])")     # bare « i5 », no number, no generation
 _SEP = re.compile(r"[-|,/;•+()]")
 _RYZEN = re.compile(r"\bryzen\s*([3579])\s*(pro\s*)?(\d{4})([a-z]{0,2})(?![a-z0-9])")
 _RYZEN_GEN = {"1": 7, "2": 8, "3": 9, "4": 10, "5": 11, "6": 12, "7": 13, "8": 14}
@@ -58,7 +58,7 @@ class Cpu:
 
 
 def parse_cpus(text: str) -> list[Cpu]:
-    """Tous les CPU cités dans un texte normalisé, dans l'ordre."""
+    """Every CPU quoted in a normalized text, in order."""
     out: list[Cpu] = []
     seen: set[str] = set()
     for m in _INTEL.finditer(text):
@@ -90,14 +90,14 @@ def parse_cpus(text: str) -> list[Cpu]:
 
 
 def best_cpu(cpus: list[Cpu]) -> Optional[Cpu]:
-    """Le CPU le plus performant cité (une annonce « i5 ou i7 au choix ») ; sinon le premier."""
+    """The most powerful CPU quoted (a listing « i5 ou i7 au choix »); otherwise the first one."""
     if not cpus:
         return None
     scored = [c for c in cpus if c.score is not None]
     return max(scored, key=lambda c: c.score) if scored else cpus[0]
 
 
-# ----------------------------------------------------------------------------- RAM / stockage
+# ----------------------------------------------------------------------------- RAM / storage
 
 _GB = re.compile(r"(?<![\d,.])(\d{1,4})\s?(?:go|gb)(?![a-z])")
 _TB = re.compile(r"(?<![\d,.])(\d)\s?(?:to|tb)(?![a-z0-9])")
@@ -121,7 +121,7 @@ _QTY = [
 
 
 def _nearest(rx: re.Pattern, before: str, after: str) -> float:
-    """Distance (en caractères) du mot-clé le plus proche du nombre, avant ou après ; inf si absent."""
+    """Distance (in characters) of the keyword closest to the number, before or after; inf if absent."""
     d = float("inf")
     for m in rx.finditer(before):
         d = min(d, len(before) - m.end())
@@ -132,20 +132,20 @@ def _nearest(rx: re.Pattern, before: str, after: str) -> float:
 
 
 def parse_memory(text: str) -> tuple[Optional[int], Optional[int], str]:
-    """(RAM en Go, stockage en Go, type de stockage) depuis un texte normalisé.
-    Chaque nombre est rattaché au contexte le plus proche (« 16 Go RAM », « SSD 256 Go ») ; à égalité
-    ou sans contexte, la valeur tranche : ≤ 64 Go = RAM, ≥ 120 Go = stockage."""
+    """(RAM in GB, storage in GB, storage type) from a normalized text.
+    Each number is attached to the closest context (« 16 Go RAM », « SSD 256 Go »); on a tie
+    or without context, the value decides: ≤ 64 GB = RAM, ≥ 120 GB = storage."""
     ram: list[int] = []
     sto: list[int] = []
     ambiguous: list[int] = []
     for m in _GB.finditer(text):
         v = int(m.group(1))
-        # fenêtre de contexte bornée par les nombres voisins : « 16 Go 256 Go SSD » ne fait pas de 16 un SSD
+        # context window bounded by the neighbouring numbers: « 16 Go 256 Go SSD » does not make 16 an SSD
         before = text[max(0, m.start() - 22):m.start()]
         prev_units = list(_GB.finditer(before)) + list(_TB.finditer(before))
         if prev_units:
             before = before[max(u.end() for u in prev_units):]
-        seps = list(_SEP.finditer(before))          # « i5 - 8 Go - SSD 250 Go » : le contexte s'arrête au séparateur
+        seps = list(_SEP.finditer(before))          # « i5 - 8 Go - SSD 250 Go »: the context stops at the separator
         if seps:
             before = before[seps[-1].end():]
         after = text[m.end():m.end() + 14]
@@ -160,7 +160,7 @@ def parse_memory(text: str) -> tuple[Optional[int], Optional[int], str]:
             ram.append(v)
         elif d_sto < d_ram:
             sto.append(v)
-        elif d_ram != float("inf"):            # égalité : la valeur tranche
+        elif d_ram != float("inf"):            # tie: the value decides
             (ram if v <= 64 else sto).append(v)
         else:
             ambiguous.append(v)
@@ -175,7 +175,7 @@ def parse_memory(text: str) -> tuple[Optional[int], Optional[int], str]:
     return (max(ram) if ram else None), (max(sto) if sto else None), kind
 
 
-# ----------------------------------------------------------------------------- profil
+# ----------------------------------------------------------------------------- profile
 
 class PcProfile(Profile):
     name = "pc"
@@ -223,7 +223,7 @@ class PcProfile(Profile):
         if _WANTED.search(t):
             info.verdict = "reject"; info.reasons.append("wanted"); return info
         m = self.reject_form.search(t)
-        # « micro tour » contient « micro » : on retire les formats refusés avant de chercher un mot « mini »
+        # « micro tour » contains « micro »: strip the rejected form factors before looking for a « mini » word
         if m and not self.mini_any.search(self.reject_form.sub(" ", t)):
             info.verdict = "reject"; info.reasons.append(f"form:{m.group(0)}"); return info
 
@@ -244,11 +244,11 @@ class PcProfile(Profile):
         cpu = best_cpu(parse_cpus(t)) or best_cpu(parse_cpus(d))
         if cpu and cpu.gen is None and cpu.tier in ("3", "5", "7", "9"):
             if family_gen:
-                # « OptiPlex 3060 i5 » : le châssis fixe la génération (3060 = 8e), la gamme vient du titre
+                # « OptiPlex 3060 i5 »: the chassis sets the generation (3060 = 8th), the tier comes from the title
                 cpu = Cpu(f"{cpu.label} ({family_gen}e gén.)", cpu.tier, family_gen)
                 info.flags.append("cpu_gen_assumed")
             elif not info.family:
-                cpu = None          # « Mini pc - i5 » : ni châssis ni génération, rien d'identifiable
+                cpu = None          # « Mini pc - i5 »: neither chassis nor generation, nothing identifiable
         if cpu:
             info.model = cpu.label
             info.attrs["cpu"] = cpu.label
@@ -260,11 +260,11 @@ class PcProfile(Profile):
             elif cpu.tier in ("celeron", "pentium", "athlon") and self.min_score is not None:
                 info.verdict = "reject"; info.reasons.append(f"cpu_below:{cpu.label}"); return info
             else:
-                info.flags.append("cpu_unknown")     # gamme connue, génération inconnue
+                info.flags.append("cpu_unknown")     # known tier, unknown generation
         else:
             info.flags.append("cpu_unknown")
         if not info.family and not info.model:
-            # ni châssis connu ni CPU : rien n'indique un PC ciblé (autre objet remonté par la recherche)
+            # neither a known chassis nor a CPU: nothing indicates a targeted PC (another object surfaced by the search)
             info.verdict = "reject"; info.reasons.append("no_match"); return info
 
         ram, sto, kind = parse_memory(full)

@@ -1,4 +1,4 @@
-"""Registre des profils. watches.<veille>.profile.type choisit le profil ; sa section porte le même nom."""
+"""Profile registry. watches.<watch>.profile.type picks the profile; its section carries the same name."""
 from __future__ import annotations
 
 from typing import Any
@@ -16,7 +16,7 @@ REGISTRY: dict[str, type[Profile]] = {
 
 
 def load_profile(cfg: dict[str, Any]) -> Profile:
-    """`cfg` est une veille (clé `profile`) ou la config complète (première veille de `watches`)."""
+    """`cfg` is a watch (`profile` key) or the full config (first watch of `watches`)."""
     if "profile" not in cfg and cfg.get("watches"):
         cfg = next(iter(cfg["watches"].values()))
     pcfg = cfg.get("profile") or {}

@@ -31,6 +31,8 @@ notify:
   source_labels:
     lbc: LBC
     ebay: eBay
+    vinted: Vinted
+    hfr: HFR
 market:
   history_days: 30
   min_samples: 4
@@ -68,6 +70,26 @@ sources:
     max_pages: 2
     detail_for_kept: true       # getItem for quantity, returns, description (kept listings only)
     detail_max_per_scan: 20
+
+  vinted:                       # catalog search pages; per watch: queries, price_min, price_max
+    enabled: true
+    max_pages: 1                # 96 newest listings per query and page
+    min_delay_s: 5
+    max_delay_s: 10
+    respect_robots: true
+    cooldown_hours_when_blocked: 12
+    shipping_eur: 8.9           # relay shipping estimate: search pages never show it
+    detail_pages: true          # item page (description, reserved/sold, seller rating) for kept listings only
+    detail_max_per_scan: 12
+
+  hfr:                          # forum.hardware.fr "Achats & Ventes"; per watch: queries, subcats
+    enabled: true
+    list_pages: 3               # most recently active topics first, 50 per page, shared by every watch
+    topic_max_per_scan: 15      # opening posts read per watch and scan (unchanged topics come from the cache)
+    min_delay_s: 8
+    max_delay_s: 15
+    respect_robots: true        # the forum search is disallowed, the topic lists are not
+    cooldown_hours_when_blocked: 12
 
 # ---------------------------------------------------------------- watches
 watches:

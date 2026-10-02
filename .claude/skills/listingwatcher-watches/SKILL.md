@@ -1,6 +1,6 @@
 ---
 name: listingwatcher-watches
-description: Add, edit, duplicate, disable or remove a watch ("veille") in ListingWatcher, the leboncoin + eBay listing monitor at C:\Code\ListingWatcher. Use whenever the request is to watch a new kind of item (a GPU, a bike, a mini PC, a disk model…), change what an existing watch searches for (leboncoin slugs, eBay queries), adjust its price tiers, notification, anti-scam or profile rules (keywords, catalogue, CPU floor), or test how a listing title would be classified. Covers config.yaml `watches`, the three profiles (hdd, pc, keywords), the CLI checks (probe, classify, pytest) and the live settings API of a running instance.
+description: Add, edit, duplicate, disable or remove a watch ("veille") in ListingWatcher, the leboncoin + eBay + Vinted + HFR listing monitor at C:\Code\ListingWatcher. Use whenever the request is to watch a new kind of item (a GPU, a bike, a mini PC, a disk model…), change what an existing watch searches for (leboncoin slugs, eBay/Vinted/HFR queries), adjust its price tiers, notification, anti-scam or profile rules (keywords, catalogue, CPU floor), or test how a listing title would be classified. Covers config.yaml `watches`, the three profiles (hdd, pc, keywords), the CLI checks (probe, classify, pytest) and the live settings API of a running instance.
 ---
 
 # ListingWatcher watches
@@ -45,6 +45,7 @@ watches:
       - {max_delivered: 500, priority: low, tags: []}   # above the last tier: stored but ignored
     market:
       reference_unit_price: 380    # anti-scam fallback median until the watch has history (min_samples)
+      min_unit_price: 250          # price floor: below it, a box, cooler or cable (ignored, not notified)
     scam:                          # optional overrides: below_median_ratio, max_shipping_eur, max_shipping_ratio…
       max_shipping_eur: 30
     sources:                       # a source not listed here is not scanned for this watch
@@ -58,6 +59,12 @@ watches:
         price_min: 100
         price_max: 600
         # condition_ids: [1000, 3000]   # overrides sources.ebay.condition_ids
+      vinted:
+        queries: ["rtx 3080"]      # fuzzy catalog search: the profile does the filtering
+        price_min: 100             # optional price_from / price_to of the search
+      hfr:
+        queries: ["3080"]          # every word must appear in the sale topic's title
+        # subcats: [Hardware]      # "Achats & Ventes" sub-forums (name in the URL), default Hardware
     profile:
       type: keywords               # hdd | pc | keywords ; the section below carries the same name
       keywords:
@@ -92,13 +99,18 @@ profile:
       - {name: "RTX 3080 Ti", any: ["3080 ti", "3080ti"]}
       - {name: "RTX 3080", any: ["3080"]}
     model_regex: "\\b(?:TUF|ROG|GAMING X|VENTUS)[ \\w-]{0,12}\\b"      # optional, sets `model`
+    require_family: false                        # true = reject without a family ; flag = keep at low
+                                                 # priority with a « à confirmer » note (e.g. RAM not stated)
     lot_regex: "\\blot de (\\d{1,2})\\b"        # optional, default shown ; group 1 = quantity (2..50)
     unit_divisor: null                           # e.g. 8 with unit_label "€/To" for a per-unit metric
     unit_label: ""
     attr_labels: {}
 ```
 
-Put the most specific family first (`3080 Ti` before `3080`). No family and no model → flag
+Put the most specific family first (`3080 Ti` before `3080`). When the family is a variant the title may omit (RAM,
+capacity), use it with `require_family: flag` and let `require_any` check the component: a listing
+naming the component but not the variant stays visible at low priority, and the description read for
+kept listings settles it. No family and no model → flag
 `model_unknown` → priority `low`.
 
 ### `pc` (performance floor, not an exact CPU)
@@ -134,6 +146,12 @@ condition_code) -> ModelInfo` (verdict `accept`/`reject`, `family`, `model`, `re
   costs one polite request (6-11 s), so keep the list to what brings distinct results.
 - **eBay**: `category_ids` from the category page URL / Browse API; queries are plain keyword searches
   across `sources.ebay.marketplaces` (FR + DE by default). Without `EBAY_CLIENT_ID` the source is off.
+- **Vinted**: plain search text, like the site's search box. Results are fuzzy and newest first (96 per
+  page): keep queries short and let the profile reject the noise. `price_min`/`price_max` cut the noise at
+  the source. Shipping is estimated (`sources.vinted.shipping_eur`), the buyer-protection fee is exact.
+- **HFR**: short queries matched on sale topic titles (`[VDS]`, "vends"…), all words required: `3090`,
+  `mac studio`. Only the first `list_pages` pages of each sub-forum are read (recent activity), so HFR
+  catches fresh or bumped topics, not the archive. A topic without a readable price is skipped.
 
 ## Workflow
 
@@ -192,6 +210,9 @@ to check what came in.
   lowercase names (`gpu`, `velo-route`).
 - `thresholds` compare the delivered price **per item** (lot size divides), in € unless the profile sets
   `unit_divisor`; `reference_unit_price` is in the same unit.
+- Filter accessories with `market.min_unit_price`, not with `reject_title` words: « boîte », « support »,
+  « ram », « refroidissement » also appear in real listings (« + boîte d'origine », « 24 Go ram GDDR6X »,
+  « watercoolée »). Keep `reject_title` for words that never describe the item itself.
 - `require_any` empty = accept everything the searches return; the slugs then do all the filtering.
 - `condition_code == "parts"` (leboncoin « pour pièces », eBay 7000) is rejected by every profile
   before keywords run.

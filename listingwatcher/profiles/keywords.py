@@ -13,6 +13,7 @@ profile:
     families:                            # first match → family
       - {name: "RTX 3080 Ti", any: ["3080 ti", "3080ti"]}
       - {name: "RTX 3080", any: ["3080"]}
+    require_family: false                # true = reject without a family ; flag = keep, low priority
     model_regex: "\\b(?:TUF|ROG|GAMING X|VENTUS)[ \\w-]{0,12}\\b"   # optional, reference/variant
     lot_regex: "\\blot de (\\d{1,2})\\b"                            # optional
 """
@@ -28,6 +29,8 @@ from .base import Profile
 
 class KeywordsProfile(Profile):
     name = "keywords"
+    low_flags = frozenset({"family_unknown"})
+    flag_notes = {"family_unknown": "variante non précisée dans l'annonce : à confirmer"}
 
     def __init__(self, pcfg: dict[str, Any] | None = None):
         super().__init__(pcfg)
@@ -39,6 +42,8 @@ class KeywordsProfile(Profile):
         self.reject = _kw_regex(list(c.get("reject") or []))
         self.reject_title = _kw_regex(list(c.get("reject_title") or []))
         self.families = [(str(f["name"]), _kw_regex(list(f.get("any") or []))) for f in (c.get("families") or [])]
+        rf = c.get("require_family", False)
+        self.require_family = "flag" if str(rf).lower() == "flag" else bool(rf)
         self.model_regex = re.compile(c["model_regex"], re.I) if c.get("model_regex") else None
         self.lot_regex = re.compile(c["lot_regex"], re.I) if c.get("lot_regex") else re.compile(r"\blot de (\d{1,2})\b")
         self.attr_labels = dict(c.get("attr_labels") or {})
@@ -62,6 +67,10 @@ class KeywordsProfile(Profile):
             mm = self.model_regex.search(title) or self.model_regex.search(description)
             if mm:
                 info.model = mm.group(0).strip()
+        if not info.family and self.require_family == "flag":
+            info.flags.append("family_unknown")
+        elif not info.family and self.require_family:
+            info.verdict = "reject"; info.reasons.append("family_unknown"); return info
         if not info.family and not info.model:
             info.flags.append("model_unknown")
         lm = self.lot_regex.search(t)

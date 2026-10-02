@@ -39,7 +39,7 @@ def main(argv: list[str] | None = None) -> int:
 
     sub.add_parser("run", help="service continu (scans planifiés + digest)")
     s = sub.add_parser("scan", help="un scan complet puis sortie (pour le planificateur DSM)")
-    s.add_argument("--source", default=None, help="limiter à une source : leboncoin | ebay")
+    s.add_argument("--source", default=None, help="limiter à une source : leboncoin | ebay | vinted | hfr")
     watch_arg(s)
     d = sub.add_parser("digest", help="envoie le digest des annonces actives")
     d.add_argument("--force", action="store_true", help="même s'il a déjà été envoyé aujourd'hui")

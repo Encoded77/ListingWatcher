@@ -104,3 +104,22 @@ class PoliteClient:
                     raise FetchError(f"HTTP {r.status_code} sur {url}")
                 return r
         raise FetchError(f"abandon {url}")  # pragma: no cover
+
+
+class CachedTransport:
+    """Polite client shared across watches + cache of the pages read during the current scan
+    (two watches sharing a search or a detail page download it only once)."""
+
+    def __init__(self, client: PoliteClient):
+        self.client = client
+        self.pages: dict[str, str] = {}
+
+    def get_text(self, url: str) -> str:
+        text = self.pages.get(url)
+        if text is None:
+            text = self.client.get(url).text
+            self.pages[url] = text
+        return text
+
+    def reset(self) -> None:
+        self.pages.clear()

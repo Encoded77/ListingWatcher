@@ -1,7 +1,7 @@
 # ListingWatcher
 
-Listing watch (hard drives, mini PCs, or any object described by a profile) on **leboncoin** and **eBay**
-(FR + DE) with **ntfy** notifications: new kept listing, price drop ≥ 5 %, daily digest, review web UI.
+Listing watch (hard drives, mini PCs, or any object described by a profile) on **leboncoin**, **eBay**
+(FR + DE), **Vinted** and the **HFR** forum's "Achats & Ventes" with **ntfy** notifications: new kept listing, price drop ≥ 5 %, daily digest, review web UI.
 Docker container, SQLite database, secrets via environment variables.
 
 Several **watches** live in the same process without mixing their flows: each has its own profile,
@@ -25,6 +25,9 @@ UI know nothing about the watched object. What is specific lives in a **profile*
   flagged. The label becomes "Lenovo M720q i5-8500T", the market median is computed per CPU then per chassis.
 - `keywords`: generic, no code: required / forbidden keywords, families by keywords, reference
   by regular expression, lots. Enough for a graphics card, a bike, a camera…
+  `require_family` makes the family mandatory (`true`) or keeps family-less listings at low priority
+  with a "to confirm" note (`flag`): check the component with `require_any` and the variant (memory size,
+  capacity) with the families, whatever the brand.
 
 For an object that needs more intelligence, write a class inheriting from `Profile`
 (`classify()`, optionally `unit_divisor`/`unit_label`, `attr_labels`, `low_flags`, `flag_notes`) and
@@ -33,12 +36,18 @@ add it to the `REGISTRY`.
 ## How it works
 
 At each scan slot, the watches are scanned **one after the other**, source by source. The transport is
-shared: a single polite leboncoin client for the whole process (never two requests in parallel), a single
-eBay client and token, and a page already read during the scan is not read again by another watch.
+shared: a single polite client per scraped site for the whole process (never two requests in parallel to the
+same site), a single eBay client and token, and a page already read during the scan is not read again by
+another watch.
 
 1. **Fetch**: `listingwatcher/fetchers/leboncoin.py` reads the result pages `/ck/<category>/<slug>[/p-N]`
    (server-side rendered `__NEXT_DATA__` JSON) with a browser-TLS-fingerprint client, one request every
    6-11 s, robots.txt, backoff on 403/429. `listingwatcher/fetchers/ebay.py` goes through the official Browse API.
+   `listingwatcher/fetchers/vinted.py` reads the catalog search `/catalog?search_text=…` (newest first; each card's
+   link title carries title, brand, condition, price and price with buyer protection; shipping is estimated).
+   `listingwatcher/fetchers/hfr.py` reads the first topic-list pages of the forum.hardware.fr "Achats & Ventes"
+   sub-forums (the forum search is disallowed by robots.txt), keeps the sale topics whose title contains a query
+   and takes the price of the matching item from the opening post (one listing per topic).
 2. **Normalization (profile)**: the watch's profile classifies the listing: for `hdd`, `listingwatcher/normalize.py`
    extracts the reference (ST8000VN004, WD80EFZZ, HUH728080ALE600, MG08ADA800E…) from title + description, classifies
    it through the catalogue then structural rules, rejects dead drives, SMR, SAS, 4Kn, external, 2.5", complete
@@ -126,13 +135,18 @@ copy), `--db`, `--log-level`.
   `thresholds` that each watch can override.
 - `sources.<source>`: the shared **transport**: `min_delay_s`/`max_delay_s`, `respect_robots`,
   `cooldown_hours_when_blocked`, `detail_pages`, `shipping_estimate` (leboncoin does not expose the "dès X €"
-  shipping, it is estimated from the declared weight); `marketplaces`, `condition_ids`, `delivery_zip`, `limit` (eBay).
+  shipping, it is estimated from the declared weight); `marketplaces`, `condition_ids`, `delivery_zip`, `limit` (eBay);
+  `shipping_eur` (Vinted's estimated relay shipping); `list_pages`, `topic_max_per_scan` (HFR: topic list pages read
+  per sub-forum, opening posts read per watch and scan; an untouched topic is served from a cache).
 - `watches.<watch>`: `title`, `enabled`, `notify` (`enabled`, `price_drop_pct`, `suspicious`
   (`separate` = separate low-priority alert, `never`), `require_delivery`, `max_age_days`, per-watch ntfy
   `topic`, `label` prefix for titles), `thresholds` (tiers on the delivered price per item → ntfy priority and
-  tags), `market.reference_unit_price`, `scam`, `profile` (`type` + section of the same name) and `sources`:
+  tags), `market.reference_unit_price`, `market.min_unit_price` (price floor: cheaper listings are
+  accessories or fake prices and are ignored), `scam`, `profile` (`type` + section of the same name) and `sources`:
   `leboncoin.searches` (category/slug pairs), `ebay.queries`, `category_ids`, `price_min`/`price_max`,
-  `condition_ids`. A watch that does not declare a source does not scan it.
+  `condition_ids`, `vinted.queries`, `price_min`/`price_max`, `hfr.queries` (every word must be in the topic
+  title), `subcats` (sub-forum names from the URL, default `Hardware`). A watch that does not declare a source
+  does not scan it.
 - `profile.hdd.models`: accepted / surveillance / rejected catalogue; `profile.hdd.keywords`: keywords
   (dead, SMR, SAS, external…). `profile.pc`: `min_cpu`, `min_ram_gb`, `min_storage_gb`, `families`,
   `require_family`, `reject`, `reject_title`, `reject_form`, `mini_any` (details in `listingwatcher/profiles/pc.py`).
@@ -177,6 +191,10 @@ a banner reports it in the general settings, with a "Réinitialiser depuis l'ima
 If leboncoin returns a persistent block (403/429), the source is paused for all watches
 (`cooldown_hours_when_blocked`) and a single notification per day reports it. Fallback: leboncoin's native
 "Sauvegarder la recherche" (save search) feature sends alerts by email.
+
+The same applies to Vinted and HFR. Rakuten and LDLC are not supported: their `robots.txt` disallows the search
+pages (`/search/`, `/recherche/`), which are the only place their second-hand offers are listed, and Rakuten also
+answers with an anti-bot challenge.
 
 Note: the header of leboncoin's `robots.txt` states that automated access is forbidden, but its rules do not
 block `/ck/` nor `/ad/accessoires_informatique/`. The client deliberately stays slow and sequential.

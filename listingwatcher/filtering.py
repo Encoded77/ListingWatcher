@@ -44,6 +44,8 @@ class Filter:
         mk = cfg.get("market", {}) or {}
         self.min_samples = int(mk.get("min_samples", 4))
         self.reference_unit_price = float(mk.get("reference_unit_price", 0) or 0)
+        # below this delivered price per item the listing cannot be the item itself (box, cooler, cable…)
+        self.min_unit_price = float(mk.get("min_unit_price", 0) or 0)
         scam = cfg.get("scam", {}) or {}
         self.below_median_ratio = float(scam.get("below_median_ratio", 0.55))
         self.zero_feedback_below_market = bool(scam.get("zero_feedback_below_market", True))
@@ -81,6 +83,9 @@ class Filter:
                 break
 
         if tier == "ignore":
+            return Decision(False, "ignore", "none", unit, per_unit, [], notes)
+        if self.min_unit_price and unit < self.min_unit_price:
+            notes.append(f"sous le prix plancher ({self.min_unit_price:.0f} €) : accessoire ou annonce factice")
             return Decision(False, "ignore", "none", unit, per_unit, [], notes)
         age = listing_age_days(listing.posted_at)
         if self.max_age_days and age is not None and age > self.max_age_days:

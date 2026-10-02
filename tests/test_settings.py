@@ -291,3 +291,30 @@ def test_page_has_settings_tab(server):
     with urllib.request.urlopen(f"http://127.0.0.1:{srv.port}/", timeout=5) as r:
         page = r.read().decode("utf-8")
     assert "data-settings" in page and 'id="settings"' in page and "__SETTINGS_JS__" not in page
+
+
+def test_vinted_and_hfr_sources_from_the_form(mgr):
+    snap = mgr.snapshot()
+    form = _form(snap, "minipc")
+    form["vinted"] = {"enabled": True, "queries": "Lenovo M90q\n\n OptiPlex 7080 ", "price_min": "100", "price_max": ""}
+    form["hfr"] = {"enabled": False, "queries": "m90q", "subcats": "Hardware\npc-portables"}
+    snap = mgr.save_watch("minipc", {"form": form, "version": snap["version"]})
+    src = load_config(mgr.path)["watches"]["minipc"]["sources"]
+    assert src["vinted"] == {"queries": ["Lenovo M90q", "OptiPlex 7080"], "price_min": 100.0}
+    assert src["hfr"] == {"queries": ["m90q"], "subcats": ["Hardware", "pc-portables"], "enabled": False}
+    view = next(w for w in snap["watches"] if w["name"] == "minipc")
+    assert view["vinted"]["queries"] == ["Lenovo M90q", "OptiPlex 7080"] and view["hfr"]["enabled"] is False
+
+    # a client that does not send the new keys leaves them alone; null removes them
+    snap = mgr.save_watch("minipc", {"form": _form(snap, "minipc")})
+    assert "vinted" in load_config(mgr.path)["watches"]["minipc"]["sources"]
+    form = dict(_form(snap, "minipc"), vinted=None, hfr=None)
+    mgr.save_watch("minipc", {"form": form})
+    src = load_config(mgr.path)["watches"]["minipc"]["sources"]
+    assert "vinted" not in src and "hfr" not in src
+
+
+def test_hfr_subcat_is_validated(mgr):
+    form = dict(_form(mgr.snapshot(), "minipc"), hfr={"queries": "m90q", "subcats": "../etc"})
+    with pytest.raises(SettingsError, match="subcats"):
+        mgr.save_watch("minipc", {"form": form})

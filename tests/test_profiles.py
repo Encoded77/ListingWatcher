@@ -31,6 +31,28 @@ def test_keywords_profile_classification():
     assert p.per_unit(450.0) is None and p.format_per_unit(None) == ""
 
 
+
+UNIFIED = {
+    "require_any": ["ai max", "strix halo"],
+    "reject": ["64 go", "64go"],
+    "families": [{"name": "128 Go", "any": ["128 go", "128go"]}],
+    "model_regex": r"(?i)\bAI Max\+? ?\d{3}\b",
+}
+
+
+@pytest.mark.parametrize("mode, accepted, flagged", [(False, True, False), (True, False, False), ("flag", True, True)])
+def test_keywords_require_family(mode, accepted, flagged):
+    p = KeywordsProfile({**UNIFIED, "require_family": mode})
+    info = p.classify("Mini PC Ryzen AI Max+ 395")
+    assert info.accepted is accepted and ("family_unknown" in info.flags) is flagged
+    ok = p.classify("Mini PC Ryzen AI Max+ 395 128Go")
+    assert ok.accepted and ok.family == "128 Go" and ok.model == "AI Max+ 395" and not ok.flags
+    # the description (read after enrichment) settles it either way
+    assert p.classify("Mini PC Ryzen AI Max+ 395", "Livré avec 128 Go de RAM").family == "128 Go"
+    assert not p.classify("Mini PC Ryzen AI Max+ 395", "64 Go de RAM").accepted
+    if mode == "flag":
+        assert "family_unknown" in p.low_flags and "family_unknown" in p.flag_notes
+
 def test_keywords_profile_end_to_end(cfg):
     kcfg = {**cfg, "profile": {"type": "keywords", "title": "Cartes graphiques", "keywords": GPU},
             "thresholds": [{"max_delivered": 400, "priority": "urgent", "tags": ["fire"]},

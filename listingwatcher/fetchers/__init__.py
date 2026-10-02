@@ -1,7 +1,7 @@
 """Source registry. To add a source: a module with a class deriving from BaseFetcher,
 then an entry in REGISTRY (key = section name under config.yaml > sources).
 
-Each watch gets its own fetchers (its searches), but the transport (polite leboncoin HTTP client,
+Each watch gets its own fetchers (its searches), but the transport (polite HTTP clients of the scraped sites,
 eBay client and token) is shared by every watch in the process: never two leboncoin requests
 in parallel, and a page already read during this scan is not read again."""
 from __future__ import annotations
@@ -12,13 +12,17 @@ from typing import Any
 from ..config import watch_source_cfg
 from .base import BaseFetcher, MissingCredentials
 from .ebay import EbayFetcher
+from .hfr import HfrFetcher
 from .leboncoin import LeboncoinFetcher
+from .vinted import VintedFetcher
 
 log = logging.getLogger("listingwatcher.fetchers")
 
 REGISTRY: dict[str, type[BaseFetcher]] = {
     "leboncoin": LeboncoinFetcher,
     "ebay": EbayFetcher,
+    "vinted": VintedFetcher,
+    "hfr": HfrFetcher,
 }
 
 
@@ -56,4 +60,4 @@ def reset_transports(transports: dict[str, Any]) -> None:
 
 
 __all__ = ["BaseFetcher", "MissingCredentials", "REGISTRY", "build_fetchers", "reset_transports",
-           "EbayFetcher", "LeboncoinFetcher"]
+           "EbayFetcher", "HfrFetcher", "LeboncoinFetcher", "VintedFetcher"]

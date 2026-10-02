@@ -18,7 +18,7 @@ def worst_status(a: str, b: str) -> str:
 
 @dataclass
 class Listing:
-    source: str                      # "lbc" | "ebay"
+    source: str                      # "lbc" | "ebay" | "vinted" | "hfr"
     listing_id: str
     url: str
     title: str

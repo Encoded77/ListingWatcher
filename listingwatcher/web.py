@@ -364,7 +364,7 @@ label.inline{display:inline-flex;gap:6px;align-items:center;margin-bottom:6px}le
 <div class="filters">
 <select id="f-status"><option value="active">Actives</option><option value="pending">Achat en cours</option><option value="sold">Vendues</option><option value="gone">Disparues</option><option value="">Tous statuts</option></select>
 <select id="f-keep"><option value="1">Retenues par le filtre</option><option value="0">Rejetées / ignorées</option><option value="">Toutes</option></select>
-<select id="f-source"><option value="">Toutes sources</option><option value="lbc">leboncoin</option><option value="ebay">eBay</option></select>
+<select id="f-source"><option value="">Toutes sources</option><option value="lbc">leboncoin</option><option value="ebay">eBay</option><option value="vinted">Vinted</option><option value="hfr">HFR</option></select>
 <select id="f-review"><option value="">Toute revue</option><option value="none">Non revues</option><option value="starred">Favoris</option><option value="seen">Vues</option><option value="ignored">Ignorées</option></select>
 <label><input type="checkbox" id="f-susp" checked> suspectes</label>
 <input id="f-q" placeholder="Recherche titre / modèle / vendeur / ville" size="36">
@@ -385,7 +385,7 @@ async function watches(){WATCHES=await (await fetch('api/watches')).json();const
 $('#tabs').innerHTML=WATCHES.map(w=>`<button data-w="${esc(w.name)}" class="${w.name===W&&!SETMODE?'on':''}" title="${esc(w.title)}">${esc(w.title)}<span class="n">${w.kept_active}</span>${w.notify_enabled?'':'<span class="mute">silencieuse</span>'}</button>`).join('')+`<button data-settings class="gear ${SETMODE?'on':''}" title="Réglages des veilles">⚙ Réglages</button>`;document.title=cur.title+' — '+'__TITLE__'}
 async function stats(){const s=await (await fetch('api/stats?watch='+encodeURIComponent(W))).json();$('#s-kept').textContent=s.kept_active;$('#s-new').textContent=s.new_today;$('#s-star').textContent=s.starred;$('#s-total').textContent=s.listings;$('#s-last').textContent=s.last_scan?fmtDate(s.last_scan):'jamais';$('#s-notify').textContent=s.notify_enabled?'':'veille silencieuse : pas de notification';$('#scan').disabled=s.scan_running;$('#msg').textContent=s.scan_running?'scan en cours…':'';if(s.scan_running)setTimeout(stats,5000);return s}
 async function load(){if(!W)await watches();const p=new URLSearchParams({watch:W,status:$('#f-status').value,keep:$('#f-keep').value,source:$('#f-source').value,review:$('#f-review').value,q:$('#f-q').value,suspicious:$('#f-susp').checked?'1':'0',limit:$('#f-limit').value});const resp=await fetch('api/listings?'+p);rows=await resp.json();TOTAL=parseInt(resp.headers.get('X-Total-Count')||rows.length,10);render();stats()}
-function render(){const k=sortK,d=sortD;rows.sort((a,b)=>{const x=a[k]??'',y=b[k]??'';return (x>y?1:x<y?-1:0)*d});const tb=$('#rows');tb.innerHTML=rows.map(r=>{const flags=J(r.flags),reasons=J(r.reasons),susp=J(r.suspicious);const model=(r.family||'')+(r.model?' '+r.model:'')||'Modèle inconnu';const src=r.source==='lbc'?'leboncoin':r.source;
+function render(){const k=sortK,d=sortD;rows.sort((a,b)=>{const x=a[k]??'',y=b[k]??'';return (x>y?1:x<y?-1:0)*d});const tb=$('#rows');tb.innerHTML=rows.map(r=>{const flags=J(r.flags),reasons=J(r.reasons),susp=J(r.suspicious);const model=(r.family||'')+(r.model?' '+r.model:'')||'Modèle inconnu';const src=({lbc:'leboncoin',ebay:'eBay',vinted:'Vinted',hfr:'HFR'})[r.source]||r.source;
 const qty=r.quantity>1?` ×${r.quantity}`:'';const perTb=(UNIT&&r.unit_price!=null)?(r.unit_price/UNIT).toFixed(1).replace('.',',')+' '+UNITL:'';const attrs=(()=>{try{return JSON.parse(r.attrs||'{}')}catch(e){return {}}})();const attrPills=Object.entries(ATTRL).filter(([k])=>attrs[k]!=null&&attrs[k]!==''&&!(Array.isArray(attrs[k])&&!attrs[k].length)).map(([k,l])=>`<span class="pill flag" title="${esc(l)}">${esc(l.replace(/ \(.*\)/,''))} ${esc(Array.isArray(attrs[k])?attrs[k].join('/'):attrs[k])}</span>`).join('');
 return `<tr class="${r.review||''}" data-id="${esc(r.listing_id)}" data-src="${esc(r.source)}">
 <td class="price">${eur(r.unit_price)}${qty}<small>${perTb}${perTb?'<br>':''}${eur(r.price)} + port ${r.shipping==null?'?':eur(r.shipping)}${r.fees?' + '+eur(r.fees):''}</small></td>
@@ -452,12 +452,12 @@ const thrTable=list=>`<table class="mini"><thead><tr><th>Prix rendu max (€)</t
 function formData(root){const o={};root.querySelectorAll('[name]').forEach(el=>{const path=el.name.split('.');let c=o;path.slice(0,-1).forEach(p=>c=c[p]=c[p]||{});c[path[path.length-1]]=el.type==='checkbox'?el.checked:el.value});return o}
 function tableRows(root,kind){return [...root.querySelectorAll(`tr[data-row="${kind}"]`)].map(tr=>{const o={};tr.querySelectorAll('[data-k]').forEach(el=>o[el.dataset.k]=el.value);return o})}
 function collectWatch(){const f=$('#st-form'),d=formData(f);return {title:d.title,enabled:d.enabled,notify:d.notify||{},market:d.market||{},scam:d.scam||{},thresholds:tableRows(f,'thr'),
- leboncoin:d.use_lbc?{enabled:d.lbc.enabled,searches:tableRows(f,'lbc')}:null,ebay:d.use_ebay?d.ebay:null,profile_type:d.profile_type,profile_yaml:$('#st-profile').value}}
+ leboncoin:d.use_lbc?{enabled:d.lbc.enabled,searches:tableRows(f,'lbc')}:null,ebay:d.use_ebay?d.ebay:null,vinted:d.use_vinted?d.vinted:null,hfr:d.use_hfr?d.hfr:null,profile_type:d.profile_type,profile_yaml:$('#st-profile').value}}
 const payload=()=>YAMLMODE?{yaml:$('#st-yaml').value}:{form:collectWatch()};
-const newWatch=()=>({name:'',title:'',enabled:true,notify:{enabled:false},market:{},scam:{},thresholds:SNAP.thresholds.length?[]:[{max_delivered:'',priority:'default',tags:[]}],leboncoin:{enabled:true,searches:[{}]},ebay:null,profile_type:'keywords',profile_yaml:'',yaml:''});
+const newWatch=()=>({name:'',title:'',enabled:true,notify:{enabled:false},market:{},scam:{},thresholds:SNAP.thresholds.length?[]:[{max_delivered:'',priority:'default',tags:[]}],leboncoin:{enabled:true,searches:[{}]},ebay:null,vinted:null,hfr:null,profile_type:'keywords',profile_yaml:'',yaml:''});
 function renderEditor(){const ed=$('#st-edit');if(SEL==='_global'){ed.innerHTML=renderGlobal();return}const isNew=SEL==='_new';const w=isNew?newWatch():SNAP.watches.find(x=>x.name===SEL);
  if(!w){SEL='_global';return renderEditor()}if(isNew)YAMLMODE=false;CURTYPE=w.profile_type;PTEXT={[CURTYPE]:w.profile_yaml||TEMPLATES[CURTYPE]||''};ed.innerHTML=renderWatch(w,isNew)}
-function renderWatch(w,isNew){const G=SNAP.global,inh=(sec,k)=>(G[sec]||{})[k]??DEF[sec][k];const n=w.notify||{},m=w.market||{},s=w.scam||{},lbc=w.leboncoin,eb=w.ebay;
+function renderWatch(w,isNew){const G=SNAP.global,inh=(sec,k)=>(G[sec]||{})[k]??DEF[sec][k];const n=w.notify||{},m=w.market||{},s=w.scam||{},lbc=w.leboncoin,eb=w.ebay,vi=w.vinted,hf=w.hfr;
  return `<form id="st-form" autocomplete="off"><div class="st-head"><h2>${isNew?'Nouvelle veille':esc(w.title)}</h2>${isNew?'':`<span class="sub">clé <code>${esc(w.name)}</code> · ${w.enabled?'active':'désactivée'}</span>`}<span class="grow"></span>${isNew?'':`<button type="button" id="st-yamlmode">${YAMLMODE?'Revenir au formulaire':'Éditer en YAML'}</button>`}</div>
 <div ${YAMLMODE?'hidden':''}>
 <fieldset><legend>Veille</legend><div class="grid">
@@ -477,6 +477,7 @@ ${fld('Âge max des annonces (jours)',num('notify.max_age_days',n.max_age_days,i
 <fieldset><legend>Paliers de prix</legend><p class="hint">Sur le prix rendu par article (article + port vers la France + frais, divisé par la taille du lot). Au-delà du dernier palier : stocké mais ignoré. ${SNAP.thresholds.length?'Tableau vide = paliers par défaut ('+SNAP.thresholds.map(t=>t.max_delivered+' €').join(', ')+').':'Pas de paliers par défaut : au moins un est requis.'}</p>${thrTable(w.thresholds||[])}</fieldset>
 <fieldset><legend>Marché et anti-arnaque</legend><div class="grid">
 ${fld('Prix de référence (€ rendu par article)',num('market.reference_unit_price',m.reference_unit_price,'aucun'),"médiane de repli tant que l'historique est trop mince")}
+${fld('Prix plancher (€ rendu par article)',num('market.min_unit_price',m.min_unit_price,'aucun'),'en dessous : ignorée (boîte, refroidissement, câble…)')}
 ${fld('Échantillons min. pour la médiane',num('market.min_samples',m.min_samples,inh('market','min_samples')))}
 ${fld('Suspecte sous … × la médiane',num('scam.below_median_ratio',s.below_median_ratio,inh('scam','below_median_ratio')))}
 ${fld('Vendeur sans avis sous le marché = suspect',triSel('scam.zero_feedback_below_market',s.zero_feedback_below_market,inh('scam','zero_feedback_below_market')))}
@@ -494,6 +495,19 @@ ${fld('Catégories eBay',inp('ebay.category_ids',eb&&eb.category_ids,'toutes'),'
 ${fld('Prix min (€)',num('ebay.price_min',eb&&eb.price_min,'aucun'))}
 ${fld('Prix max (€)',num('ebay.price_max',eb&&eb.price_max,'aucun'))}
 ${fld('États (condition_ids)',inp('ebay.condition_ids',((eb&&eb.condition_ids)||[]).join(', '),'liste commune de la source'))}
+</div></div></fieldset>
+<fieldset><legend><label><input type="checkbox" name="use_vinted" ${vi?'checked':''}> Vinted</label></legend><div class="src" ${vi?'':'hidden'}>
+<label class="inline"><input type="checkbox" name="vinted.enabled" ${!vi||vi.enabled?'checked':''}> requêtes actives</label>
+<p class="hint">Une requête = la recherche <code>vinted.fr/catalog?search_text=…</code>, plus récentes d'abord. La recherche est floue : le profil doit filtrer. Port estimé (réglage commun <code>shipping_eur</code>), protection acheteur incluse.</p><div class="grid">
+${fld('Requêtes (une par ligne)',`<textarea name="vinted.queries" rows="4">${esc(((vi&&vi.queries)||[]).join('\n'))}</textarea>`)}
+${fld('Prix min (€)',num('vinted.price_min',vi&&vi.price_min,'aucun'))}
+${fld('Prix max (€)',num('vinted.price_max',vi&&vi.price_max,'aucun'))}
+</div></div></fieldset>
+<fieldset><legend><label><input type="checkbox" name="use_hfr" ${hf?'checked':''}> HFR (forum.hardware.fr)</label></legend><div class="src" ${hf?'':'hidden'}>
+<label class="inline"><input type="checkbox" name="hfr.enabled" ${!hf||hf.enabled?'checked':''}> requêtes actives</label>
+<p class="hint">Les premières pages des sous-forums « Achats &amp; Ventes » sont lues (la recherche du forum est interdite aux robots). Un sujet de vente est retenu si son titre contient tous les mots d'une requête ; le prix vient du premier message.</p><div class="grid">
+${fld('Requêtes (une par ligne)',`<textarea name="hfr.queries" rows="4">${esc(((hf&&hf.queries)||[]).join('\n'))}</textarea>`)}
+${fld('Sous-forums (un par ligne)',`<textarea name="hfr.subcats" rows="3" placeholder="Hardware">${esc(((hf&&hf.subcats)||[]).join('\n'))}</textarea>`,'nom dans l\'URL : Hardware, pc-portables, Photo-Audio-Video…')}
 </div></div></fieldset>
 <fieldset><legend>Profil (classification)</legend><div class="grid">${fld('Type',`<select name="profile_type">${SNAP.profile_types.map(t=>`<option ${t===w.profile_type?'selected':''}>${t}</option>`).join('')}</select>`)}</div>
 <p class="hint" id="st-phelp">${PHELP[w.profile_type]||''}</p><textarea id="st-profile" class="code" rows="18" spellcheck="false">${esc(PTEXT[CURTYPE])}</textarea></fieldset>
@@ -565,7 +579,7 @@ S.addEventListener('click',async e=>{const t=e.target;const sel=t.closest('[data
  catch(err){flash(err.message,true)}});
 S.addEventListener('input',e=>{const t=e.target;if(t.closest('.test'))return;if(t.closest('form'))DIRTY=true;const tr=t.closest('tr[data-row="lbc"]');if(tr)tr.querySelector('a').href=lbcUrl(tr.querySelector('[data-k=category]').value.trim(),tr.querySelector('[data-k=slug]').value.trim())});
 S.addEventListener('change',e=>{const t=e.target;if(t.closest('.test'))return;if(t.closest('form'))DIRTY=true;
- if(t.name==='use_lbc'||t.name==='use_ebay')t.closest('fieldset').querySelector('.src').hidden=!t.checked;
+ if(['use_lbc','use_ebay','use_vinted','use_hfr'].includes(t.name))t.closest('fieldset').querySelector('.src').hidden=!t.checked;
  if(t.name==='profile_type'){const ta=$('#st-profile');PTEXT[CURTYPE]=ta.value;CURTYPE=t.value;ta.value=PTEXT[CURTYPE]??TEMPLATES[CURTYPE]??'';$('#st-phelp').innerHTML=PHELP[CURTYPE]||''}});
 S.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.tagName==='INPUT'&&e.target.closest('.test')){e.preventDefault();runTest()}});
 S.addEventListener('submit',e=>{e.preventDefault();if(e.target.id==='st-global')saveGlobal();else saveWatch()});

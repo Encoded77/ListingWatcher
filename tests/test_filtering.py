@@ -118,3 +118,11 @@ def test_old_listings_ignored(wcfg, profile):
     assert f.decide(L(150), ok()).keep                      # unknown date: no filter
     f0 = Filter({**wcfg, "notify": {**wcfg["notify"], "max_age_days": 0}}, profile=profile)
     assert f0.decide(L(150, posted_at="2023-01-10 10:00:00"), ok()).keep
+
+
+def test_min_unit_price_ignores_accessories(wcfg):
+    f = Filter({**wcfg, "market": {**(wcfg.get("market") or {}), "min_unit_price": 100}})
+    d = f.decide(L(40, 6.9), ok())
+    assert not d.keep and d.tier == "ignore" and any("plancher" in n for n in d.notes)
+    assert f.decide(L(190, 6.9), ok()).tier == "urgent"
+    assert Filter(wcfg).decide(L(40, 6.9), ok()).keep          # no floor by default

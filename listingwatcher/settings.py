@@ -51,7 +51,7 @@ GLOBAL_FIELDS: dict[str, dict[str, str]] = {
 WATCH_FIELDS: dict[str, dict[str, str]] = {
     "notify": {"enabled": "bool", "topic": "str", "label": "str", "price_drop_pct": "float",
                "suspicious": "suspicious", "require_delivery": "bool", "max_age_days": "int"},
-    "market": {"reference_unit_price": "float", "min_samples": "int"},
+    "market": {"reference_unit_price": "float", "min_unit_price": "float", "min_samples": "int"},
     "scam": GLOBAL_FIELDS["scam"],
 }
 
@@ -213,6 +213,14 @@ def _file_sha(path: str) -> str:
 
 # ---------------------------------------------------------------------- field coercion
 
+def _lines(raw: Any) -> list[str]:
+    """Textarea (one value per line) or list → cleaned list of strings."""
+    if raw is None:
+        return []
+    items = raw.splitlines() if isinstance(raw, str) else list(raw)
+    return [str(x).strip() for x in items if str(x).strip()]
+
+
 def _coerce(kind: str, raw: Any, where: str) -> Any:
     """Form value → YAML value. None/"" = absent (inherited)."""
     if raw is None or (isinstance(raw, str) and raw.strip() == ""):
@@ -355,7 +363,7 @@ class SettingsManager:
         pnode = wnode.get("profile") if isinstance(wnode, dict) else None
         section = pnode.get(ptype) if isinstance(pnode, dict) else None
         src = w.get("sources") or {}
-        lbc, eb = src.get("leboncoin"), src.get("ebay")
+        lbc, eb, vi, hf = src.get("leboncoin"), src.get("ebay"), src.get("vinted"), src.get("hfr")
         return {
             "name": name, "title": w.get("title") or name, "enabled": bool(w.get("enabled", True)),
             **{sec: {k: (w.get(sec) or {}).get(k) for k in fields} for sec, fields in WATCH_FIELDS.items()},
@@ -368,6 +376,12 @@ class SettingsManager:
                 "enabled": bool(eb.get("enabled", True)), "queries": list(eb.get("queries") or []),
                 "category_ids": eb.get("category_ids"), "price_min": eb.get("price_min"),
                 "price_max": eb.get("price_max"), "condition_ids": eb.get("condition_ids")},
+            "vinted": None if vi is None else {
+                "enabled": bool(vi.get("enabled", True)), "queries": list(vi.get("queries") or []),
+                "price_min": vi.get("price_min"), "price_max": vi.get("price_max")},
+            "hfr": None if hf is None else {
+                "enabled": bool(hf.get("enabled", True)), "queries": list(hf.get("queries") or []),
+                "subcats": list(hf.get("subcats") or [])},
             "profile_type": ptype,
             "profile_yaml": _align_comments(self._dump(section)),
             "yaml": _align_comments(self._dump(wnode)),
@@ -473,6 +487,35 @@ class SettingsManager:
             else:
                 cur["enabled"] = False
             sources["ebay"] = cur
+        for key, extra in (("vinted", ("price_min", "price_max")), ("hfr", ())):
+            if key not in form:          # older clients do not know this source: leave it untouched
+                continue
+            sf = form.get(key)
+            if sf is None:
+                sources.pop(key, None)
+                continue
+            cur = sources.get(key) or {}
+            cur["queries"] = _lines(sf.get("queries"))
+            for k in extra:
+                v = _coerce("float", sf.get(k), f"{where}.{key}.{k}")
+                if v is None:
+                    cur.pop(k, None)
+                else:
+                    cur[k] = v
+            if key == "hfr":
+                subs = _lines(sf.get("subcats"))
+                bad = [s for s in subs if not re.fullmatch(r"[A-Za-z0-9-]+", s)]
+                if bad:
+                    raise SettingsError(f"{where}.hfr.subcats : « {bad[0]} » invalide (nom de sous-forum, ex. Hardware)")
+                if subs:
+                    cur["subcats"] = subs
+                else:
+                    cur.pop("subcats", None)
+            if sf.get("enabled", True):
+                cur.pop("enabled", None)
+            else:
+                cur["enabled"] = False
+            sources[key] = cur
         assign(w, "sources", sources or None)
 
         ptype = str(form.get("profile_type") or "keywords")
@@ -536,7 +579,7 @@ class SettingsManager:
             if not w["thresholds"]:
                 raise SettingsError(f"veille {name} : aucun palier de prix (ni dans la veille, ni à la racine)")
             if not any(k in (cfg.get("sources") or {}) for k in w["sources"]):
-                raise SettingsError(f"veille {name} : aucune source (leboncoin ou eBay)")
+                raise SettingsError(f"veille {name} : aucune source (leboncoin, eBay, Vinted ou HFR)")
         cfg["_path"] = "<settings>"
         return cfg
 

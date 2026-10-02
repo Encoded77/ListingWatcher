@@ -19,7 +19,7 @@ _ENV = re.compile(r"\$\{([A-Za-z0-9_]+)(?::-([^}]*))?\}")
 LEGACY_WATCH = "hdd"
 
 #: keys of a `sources.<source>` section that describe *what* to search (per watch), not the transport
-SEARCH_KEYS = {"searches", "queries", "category_ids", "condition_ids", "price_min", "price_max"}
+SEARCH_KEYS = {"searches", "queries", "category_ids", "condition_ids", "price_min", "price_max", "subcats"}
 
 
 def _expand(value: Any) -> Any:
